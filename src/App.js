@@ -45,7 +45,7 @@ class App extends Component {
         <Form
           onSave={this.handleSave}
         />
-        <List onDelete={this.onDelete} recipes={this.state.recipes} />
+        <List  recipes={this.state.recipes} />
       </div>
     );
   }
