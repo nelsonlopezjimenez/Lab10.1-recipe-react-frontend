@@ -33,10 +33,11 @@ class App extends Component {
   }
  
   async onDelete(id) {
-    await apiCalls.removeRecipe(id);
-    const recipes = this.state.recipes.filter(r => r.id !== id);
+    await apiCalls.deleteRecipe(recipes, id);
+    const recipes = this.state.recipes.filter(recipe => recipe._id !== id);
     this.setState({ recipes });
   }
+  
 
   render() {
 
@@ -44,6 +45,7 @@ class App extends Component {
       <div className="App">
         <Form
           onSave={this.handleSave}
+          onDelete={this.onDelete}
         />
         <List  recipes={this.state.recipes} />
       </div>
