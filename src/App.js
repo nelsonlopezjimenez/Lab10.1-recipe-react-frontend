@@ -1,3 +1,5 @@
+ 
+
 import React, { Component } from 'react';
 import Form from './Form';
 import List from './List';
@@ -34,7 +36,7 @@ class App extends Component {
  
   async onDelete(id) {
     await apiCalls.removeRecipe(id);
-    const recipes = this.state.recipes.filter(r => r.id !== id);
+    const recipes = this.state.recipes.filter(recipe => recipe._id !== id);
     this.setState({ recipes });
   }
 
@@ -45,7 +47,7 @@ class App extends Component {
         <Form
           onSave={this.handleSave}
         />
-        <List  recipes={this.state.recipes} />
+        <List  recipes={this.state.recipes} onDelete={this.onDelete} />
       </div>
     );
   }
