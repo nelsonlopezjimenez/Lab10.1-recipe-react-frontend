@@ -33,7 +33,7 @@ class App extends Component {
   }
  
   async onDelete(id) {
-    await apiCalls.removeRecipe(recipes, id);
+    await apiCalls.deleteRecipe(recipes, id);
     const recipes = this.state.recipes.filter(recipe => recipe._id !== id);
     this.setState({ recipes });
   }
