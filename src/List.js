@@ -5,7 +5,8 @@ import './List.css';
 function List (props){
 
   const recipes = props.recipes.map( recipe => (
-    <Recipe key={recipe._id} {...recipe}  />
+    <Recipe key={recipe._id} {...recipe} 
+    onDelete={props.onDelete} />
   ));
   return(
     <div className='recipe-list'>
