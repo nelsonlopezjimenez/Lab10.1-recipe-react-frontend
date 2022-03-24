@@ -34,7 +34,7 @@ export async function removeRecipe(id) {
 
 //I believe this is how we would implement DRY code, by removing the
 //duplicate code and placing it into a method that can then be called
-export function errorMessage(response) {
+function errorMessage(response) {
   if (!response.ok) {
     if (response.status >= 400 && response.status < 500) {
       return response.json().then((data) => {

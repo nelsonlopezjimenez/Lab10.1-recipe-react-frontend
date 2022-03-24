@@ -1,59 +1,66 @@
-import React, {Component} from 'react';
+//This may not be fully functioning, however, it implements some of what a functional compononent 
+//should include when changed from the class component structure
+
+//change the imports to allow for use of hooks
+import React, {useState, useEffects} from 'react';
 import './Form.css';
 
-class Form extends Component {
-  static defaultProps = {
-    onClose() {},
-    onSave() {}
-  }
+function Form(){
+  // save the following props to the form
+  const {onSave, onDelete} = props;
+  //create hooks for the features of a recipe
+  const [title, setTitle] = useState('');
+  const [instructions, setInstructions] = useState("");
+  const [ingredients, setIngredients] =  useState(['']);
+  const [img, setImg] = useState('');
+
+  //change handler for each item instead of this default
+  function handleChangeTitle(e){
+    setTitle({[title]: value});
+  };
+
+  function handleChangeInstructions(e) {
+    setInstructions({[instructions]: value});
+  };
+
+  function handleChangeImg(e) {
+    setImg({[img]: value});
+  };
   
-  constructor(props) {
-    super(props);
-    this.state = {
-      title: '',
-      instructions: "",
-      ingredients: [''],
-      img: ''
-    };
-    
-    this.handleChange = this.handleChange.bind(this);
-    this.handleNewIngredient = this.handleNewIngredient.bind(this);
-    this.handleChangeIng = this.handleChangeIng.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
+  function handleNewIngredient(ingredient) {
+    setIngredients([...ingredients, ingredient]);
+  };
   
-  handleChange(e) {
-    this.setState({[e.target.name]: e.target.value});
-  }
-  
-  handleNewIngredient(e) {
-    const {ingredients} = this.state;
-    this.setState({ingredients: [...ingredients, '']});
-  }
-  
-  handleChangeIng(e) {
+  function handleChangeIng(e) {
     const index = Number(e.target.name.split('-')[1]);
-    const ingredients = this.state.ingredients.map((ing, i) => (
+    const ingredients = ingredients.map((ing, i) => (
       i === index ? e.target.value : ing
     ));
-    this.setState({ingredients});
+    setIngredients({ingredients});
   }
   
-  handleSubmit(e) {
-    console.log("RecipeInput, handleSubmit ", this.state)
+  function handleSubmit(e) {
+    console.log("RecipeInput, handleSubmit")
     e.preventDefault();
-    this.props.onSave({...this.state});
-    this.setState({
-      title: '',
-      instructions: '',
-      ingredients: [''],
-      img: ''
-    })
-  }
+    //creating the object to pass into save into the form
+    const recipe = {title: title, instructions: instructions,ingredients: ingredients, img: img};
+    onSave({recipe});
+  };
+    
+
+  //   function setRecipe(prevRecipe) => {
+  //     const newRecipe = {...recipe, e.target.name : e.target.value};
+  //     return {
+  //       nextRecipeID : prevRecipe.nextRecipeID + 1,
+  //       recipes [...recipes, newRecipe],
+  //     }
+  //   }
+  // }
   
+  //TODO: this is the next thing to work on here...remove render()
   render() {
     const {title, instructions, img, ingredients} = this.state;
-    const {onClose} = this.props;
+    const {onClose} = props;
     let inputs = ingredients.map((ing, i) => (
       <div
         className="recipe-form-line"
@@ -67,7 +74,7 @@ class Form extends Component {
             size={45}
             autoComplete="off"
             placeholder=" Ingredient"
-            onChange={this.handleChangeIng} />
+            onChange={handleChangeIng} />
         </label>
       </div>
     ));
