@@ -1,53 +1,52 @@
-import React, { Component } from 'react';
-import Form from './Form';
-import List from './List';
-import * as apiCalls from './api';
-import './App.css';
+//change the imports to allow for use of hooks
+import React, { useState, useEffect } from "react";
+import Form from "./Form";
+import List from "./List";
+import * as apiCalls from "./api";
+import "./App.css";
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      recipes: [],
-    }
+//create the functional component rather than class based
+function App() {
+  const [recipes, setRecipes] = useState([]);
 
-    this.handleSave = this.handleSave.bind(this);
-    this.onDelete = this.onDelete.bind(this);
+  function useEffect() {
+    loadRecipes();
   }
 
-  componentDidMount() {
-    console.log("App this.props: ", this.props)
-    this.loadRecipes();
-  }
-
-  async loadRecipes() {
+  async function loadRecipes() {
     const recipes = await apiCalls.getRecipes();
     console.log("App loadRecipes: ", recipes);
-    this.setState({ recipes });
+    setRecipes({ recipes });
   }
 
-  async handleSave(recipe) {
-    console.log("App, handleSave : ", recipe)
+  async function handleSave(recipe) {
+    console.log("App, handleSave : ", recipe);
     const newRecipe = await apiCalls.createRecipe(recipe);
-    this.setState({ recipes: [...this.state.recipes, newRecipe] });
+    setRecipes([...recipes, newRecipe]);
   }
- 
-  async onDelete(id) {
+
+  async function onDelete(id) {
     await apiCalls.deleteRecipe(recipes, id);
-    const recipes = this.state.recipes.filter(recipe => recipe._id !== id);
-    this.setState({ recipes });
+    const recipes = recipes.filter((recipe) => recipe._id !== id);
+    setRecipes({ recipes });
   }
-  
 
-  render() {
-
+  //this is the conditional statement for if the recipes array is empty
+  if (recipes.length > 0) {
     return (
       <div className="App">
-        <Form
-          onSave={this.handleSave}
-          onDelete={this.onDelete}
-        />
-        <List  recipes={this.state.recipes} />
+        <Form onSave={handleSave} onDelete={onDelete} />
+        <List recipes={recipes} />
+      </div>
+    );
+  } else {
+    return (
+      <div className="App">
+        <Form onSave={handleSave} onDelete={onDelete} />
+        <h1>
+          No recipes found in the database. Please use the form to add your own
+          recipe
+        </h1>
       </div>
     );
   }
