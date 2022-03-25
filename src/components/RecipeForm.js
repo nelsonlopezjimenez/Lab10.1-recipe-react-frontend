@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { MdCancel } from "react-icons/md";
 
+import { createRecipe } from "../api";
+
 import RecipeFormControls from './RecipeFormControls';
 import RecipeFormIngredientInput from './RecipeFormIngredientInput';
 
 // TODO: probably need to add more props
-const RecipeForm = ({ isToggled, setIsToggled }) => {
+const RecipeForm = ({ isToggled, lastId, recipes, setIsToggled, setLastId, setRecipes }) => {
   const [ instructions, setInstructions ] = useState("");
   const [ ingredients, setIngredients ]   = useState([]);
   const [ img, setImg ]                   = useState("");
@@ -14,8 +16,21 @@ const RecipeForm = ({ isToggled, setIsToggled }) => {
   const focusOnInstructions = () => document.getElementById("recipe-instructions-input").focus();
 
   const handleSubmit = e => {
-
+    createRecipe(assembleRecipe())
+      .then(json => {
+        setRecipes([...recipes, json]);
+        setIsToggled(false);
+        setLastId(json._id);
+        resetAllStates();
+      });
   };
+
+  const assembleRecipe = () => ({
+    title: title,
+    instructions: instructions,
+    ingredients: ingredients,
+    img: img,
+  });
 
   const resetAllStates = () => {
     setInstructions("");
@@ -23,10 +38,6 @@ const RecipeForm = ({ isToggled, setIsToggled }) => {
     setImg("");
     setTitle("");
   };
-
-  // TODO: Make some way to reset the form when blurred
-
-  // TODO: Hide labels in favor of placeholders
 
   return (
     <div className={`recipe-form-container ${isToggled ? "toggled" : ""}`}>

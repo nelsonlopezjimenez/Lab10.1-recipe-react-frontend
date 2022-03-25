@@ -1,11 +1,15 @@
 import RecipeControls from "./RecipeControls";
 import RecipeIngredients from "./RecipeIngredients";
 
-const RecipeCard = ({ id, image, ingredients, instructions, title }) => {
+const RecipeCard = ({ id, image, ingredients, instructions, lastId, recipes, setRecipes, title }) => {
+  const getClassNames = () => lastId === id ? "recipe-card newly-added" : "recipe-card";
+  
   return (
-    <div className="recipe-card">
+    <div className={getClassNames()}>
       <RecipeControls 
         id={id}
+        recipes={recipes}
+        setRecipes={setRecipes}
       />  
 
       <div className="recipe-title-wrapper">
@@ -13,7 +17,7 @@ const RecipeCard = ({ id, image, ingredients, instructions, title }) => {
       </div>
 
       <div className="recipe-card-image">
-        <img src={image} alt={title} />
+        <img src={`img/${image}`} alt={title} />
       </div>
 
       <div className="recipe-card-content">

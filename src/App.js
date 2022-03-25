@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import React, { Component, useEffect, useState } from 'react';
 
 import './style/style.scss';
 
@@ -6,6 +6,8 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import RecipeList from "./components/RecipeList";
 import RecipeForm from "./components/RecipeForm";
+
+import { getRecipes } from './api';
 
 const defaultRecipesArray = [
   {
@@ -55,7 +57,14 @@ const defaultRecipesArray = [
 
 const App = ({ props }) => {
   const [ formIsToggled, setFormIsToggled ]   = useState(false);
-  const [ recipes, setRecipes ]               = useState(defaultRecipesArray);
+  // const [ recipes, setRecipes ]               = useState(defaultRecipesArray);
+  const [ recipes, setRecipes ]               = useState([]);
+  const [ lastId, setLastId ]                 = useState();
+
+
+  useEffect(() => {
+    getRecipes().then(response => setRecipes(response));
+  }, []);
 
   const handleSave = recipe => {
     setRecipes([...recipes, { ...recipe, id: recipes.length}]);
@@ -70,13 +79,19 @@ const App = ({ props }) => {
 
       <RecipeForm
         isToggled={formIsToggled}
+        lastId={lastId}
+        recipes={recipes}
         setIsToggled={setFormIsToggled}
+        setLastId={setLastId}
+        setRecipes={setRecipes}
       />
 
       <RecipeList
         formIsToggled={formIsToggled}
-        setFormIsToggled={setFormIsToggled}
+        lastId={lastId}
         recipes={recipes}
+        setFormIsToggled={setFormIsToggled}
+        setRecipes={setRecipes}
       />
 
       <Footer 
