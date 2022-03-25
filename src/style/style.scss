@@ -1,0 +1,579 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Dela+Gothic+One&family=BhuTuka+Expanded+One&family=Rubik:ital,wght@0,300;0,600;1,300;1,600&display=swap');
+
+// $header-font: "Playfair Display", serif;
+// $header-font: "Poiret One", serif;
+// $header-font: "BhuTuka Expanded One", serif;
+
+$main-font: "Rubik", sans-serif;
+// $header-font: $main-font;
+$header-font: $main-font;
+$logo-font: "Dela Gothic One", serif;
+// $header-font: $main-font;
+
+// $red: #DC493A;
+// $light-blue: #E7F0FF;
+// $blue: #4392F1;
+$red: #FF6542;
+$dark-grey: #493D3F;
+$dark-grey-shadow: #493D3F99;
+$bg-color: #FDF8F1;
+$light-bg: #FDF8F199;
+
+$border-radius: .5rem; 
+
+$transition-time: 200ms;
+
+// form related sliding transition values
+$form-slide-distance: 40vw;
+$slide-transitions: transform 300ms, opacity 300ms;
+
+html {
+  // background-color: $bg-color;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  margin: 0;
+}
+
+* {
+  // color: $dark-grey;
+  font-family: $main-font;
+  line-height: 1.5rem;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5 {
+  // color: $red;
+  color: $dark-grey;
+  // text-shadow: 2px 2px 0px $bg-color;
+  // text-shadow: 2px 2px 0px rgba(0,0,0,0.3);
+  font-family: $header-font;
+  // border-bottom: 1px solid $red;
+}
+
+input:focus, textarea:focus {
+  outline: none;
+}
+
+p, li, input {
+  color: $dark-grey;
+}
+
+h1 {
+  font-size: 3rem;
+  line-height: 2.8rem;
+}
+
+h2 {
+  font-size: 1.6rem;
+  line-height: 1.8rem;
+}
+
+header {
+  align-items: center;
+  background-color: $dark-grey;
+  display: flex;
+  justify-content: space-between;
+  left: 0;
+  padding: 0 3rem;
+  position: fixed;
+  top: 0;
+  transition: box-shadow 1000ms, background-color 1000ms;
+  width: calc(100% - 6rem);
+  z-index: 10;
+}
+
+header.scrolled {
+  // background-color: $bg-color;
+  // box-shadow: 0px 0px 4px rgba(0,0,0,0.2);
+}
+
+header h1 {
+  align-items: baseline;
+  // border-bottom: 5px solid $red;
+  color: $dark-grey;
+  display: flex;
+  // font-family: "Poiret One", $header-font;
+  font-family: $header-font;
+  font-size: 3rem;
+  line-height: 3.4rem;
+  margin: 2rem;
+
+  span {
+    font-family: $logo-font;
+  }
+
+  span.logo-my {
+    color: $bg-color;
+  }
+
+  span.logo-recipes {
+    color: $red;
+  }
+}
+
+#add-recipe {
+  background-color: $red;
+  color: $bg-color;
+  height: 3rem;
+  width: 8rem;
+  z-index: 20;
+}
+
+footer {
+  align-items: center;
+  // background-color: $bg-color;
+  background-color: $red;
+  display: flex;
+  font-size: rem;
+  font-weight: bold;
+  justify-content: center;
+  margin-top: auto;
+  min-height: 8rem;
+  transition: $slide-transitions;
+  transform: translateX(0);
+  width: 100vw;
+
+  p {
+    color: $dark-grey;
+    font-size: 1rem;
+    // text-decoration: dashed;
+
+    a {
+      color: $bg-color;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+footer.form-toggled {
+  transform: translateX(-$form-slide-distance);
+}
+
+input, button, textarea {
+  border-radius: $border-radius;
+
+}
+
+input, textarea {
+  border: 2px solid transparent;
+  transition: border $transition-time;
+}
+
+input:focus, textarea:focus {
+  border: 2px solid $red;
+}
+
+.recipe-card {
+  // background-color: transparent;
+  border: 2px solid transparent;
+  // border-radius: 1rem;
+  box-shadow: 0px 0px 0px rgba(0,0,0,0.2);
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+  opacity: 1;
+  padding: 1.6rem;
+  position: relative;
+  transition: background-color $transition-time, box-shadow $transition-time, opacity 1000ms;
+
+  h1, h2 {
+    display: inline-flex;
+    // border-bottom: 2px solid $red;
+  }
+  
+  h2 {
+    margin: 1rem 0 .5rem;
+  }
+
+  p, ul {
+    margin: .25rem auto;
+  }
+}
+
+.recipe-card .newly-added { 
+  opacity: 0;
+}
+
+.recipe-title {
+  border-bottom: 3px solid transparent;
+  display: inline-flex;
+  font-size: 2.4rem;
+  margin-bottom: 1.6rem;
+  margin-top: 0;
+  transition: border $transition-time;
+}
+
+.recipe-card:hover .recipe-title {
+  border-bottom: 3px solid $red;
+}
+
+.recipe-card:hover {
+  // border: 2px solid $bg-color;
+  background-color: $light-bg;
+  // box-shadow: 0px 1px 4px rgba(0,0,0,0.1);
+}
+
+.recipe-card-image {
+  // padding: 1rem;
+  overflow: hidden;
+  max-height: 250px;
+  width: 100%;
+}
+
+.recipe-card-image img {
+  transition: transform 1000ms;
+  transform: scale(1);
+  width: 100%;
+}
+
+p {
+  font-size: 1.3rem;
+  line-height: 1.8rem;
+}
+
+// form-related styling
+
+.recipe-form-container {
+  display: flex;
+  flex-direction: column;
+  background-color: $bg-color;
+  border-left: 4px solid $red;
+  max-width: $form-slide-distance;
+  min-height: calc(100vh - 7rem);
+  opacity: 0;
+  padding: 2rem;
+  padding-top: 7rem;
+  position: fixed;
+  right: 0;
+  transform: translate($form-slide-distance, 0);
+  transition: $slide-transitions;
+  top: 0;
+  width: 50%;
+  z-index: 5;
+}
+
+.recipe-form-container.toggled {
+  opacity: 100;
+  transform: translate(1rem, 0);
+}
+
+.recipe-form-close {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.recipe-form-close-link {
+  color: $red;
+  font-size: 2rem;
+  transform: scale(1.0);
+  transition: transform $transition-time;
+}
+
+.recipe-form-close-link:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+}
+
+.recipe-form-container form  {
+  width: 90%;
+  margin: 0;
+}
+
+.recipe-form-container form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  label {
+    margin-bottom: .5rem;
+  }
+
+  ol, li {
+    width: 100%;
+  }
+
+  li input {
+    width: 100%;
+  }
+
+  input {
+    // border: 2px solid $red;
+  }
+}
+
+.recipe-form-ingredient-container {
+  background-color: $bg-color;
+  max-height: 30vh;
+  overflow: scroll;
+  overflow-x: hidden;
+  padding: 0;
+}
+
+.recipe-form-container .form-controls {
+  background: $bg-color;
+  display: flex;
+  justify-content: flex-end;
+  height: 3rem;
+  padding: 1rem;
+  position: fixed;
+  top: calc(100vh - 5rem);
+  // left: -2rem;
+  width: calc(100% - 4.6rem);
+
+  button {
+    margin-left: 1rem;
+  }
+
+  input {
+    margin-left: 1rem;
+    width: 100%;
+  }
+}
+
+.recipe-form-container button {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  max-width: 200px;
+
+  svg {
+    font-size: 1.2rem;
+    margin-left: 1rem;
+    max-width: 2rem;
+  }
+}
+
+.recipe-form-container input, .recipe-form-container textarea {
+  font-size: 1.6rem;
+}
+
+.recipe-form-container p, .recipe-form-instructions-container, .recipe-form-title-container {
+  width: 100%;
+}
+
+.recipe-form-input-container input, .recipe-form-input-container textarea,
+#recipe-image-input {
+  width: calc(100% - 2rem);
+}
+
+
+textarea {
+  margin-bottom: 2rem;
+  min-height: 8rem;
+}
+
+input, button, textarea {
+  border: 2px solid transparent;
+  padding: .5rem 1rem;
+}
+
+// recipe list and card stuff
+
+.recipe-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  margin: 0 auto 2rem;
+  opacity: 1;
+  padding: 6rem;
+  transition: transform 300ms, opacity 300ms;
+  transform: translateX(0);
+  width: 90%;
+}
+
+
+.recipe-list.form-toggled {
+  // opacity: .5;
+  transform: translateX(-$form-slide-distance);
+}
+
+.no-recipes {
+  align-items: center;
+  color: $dark-grey;
+  display: flex;
+  // flex-direction: column;
+  flex: 1;
+  font-size: 3rem;
+  line-height: 4rem;
+  min-height: 640px;
+  justify-content: center;
+  width: 100%;
+
+  * {
+    width: 25%;
+  }
+}
+
+.no-recipes span {
+  line-height: 4rem;
+}
+
+.no-recipes .icon-wrapper {
+  display: flex;
+  font-size: 10rem;
+  align-items: flex-end;
+  justify-content: center;
+  max-width: 30rem;
+  padding: 2rem;
+  // width: 100%;
+}
+
+.recipe-card-control-container {
+  align-self: flex-end;
+  background-color: transparent;
+  flex: none;
+  height: 0px;
+  opacity: 0;
+  position: relative;
+  transition: opacity $transition-time;
+}
+
+.recipe-card-control-container button {
+  border: 0px;
+  background-color: transparent;
+  border-radius: 3rem;
+  color: $red;
+  font-size: 2rem;
+  line-height: 1.2rem;
+  padding: .2rem;
+}
+
+.recipe-card:hover > .recipe-card-control-container {
+  opacity: 100;
+}
+
+.recipe-card:hover .recipe-card-image img {
+  transform: scale(1.2);
+}
+
+.recipe-card-delete {
+  // padding: .3rem 1rem;
+}
+
+button {
+  background-color: $red;
+  border: 2px solid $red;
+  color: $bg-color;
+  font-weight: bold;
+  transform: scale(1.0);
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+label {
+  font-weight: bold;
+  color: $dark-grey;
+}
+
+ol {
+  counter-reset: item;
+  list-style: none;
+  margin-left: 0;
+  padding-left: 0;
+
+  li {
+    counter-increment: item;
+    margin-left: 0;
+    padding-left: 0;
+    margin-bottom: .5rem;
+  }
+
+  li:before {
+    // color: $red;
+    // content: counter(item) ". ";
+    // font-family: $main-font;
+    // font-size: 1.2rem;
+    // // margin-left: .5rem;
+    // // margin-right: -2rem;
+    // text-align: center;
+    // width: 1.4rem;
+    // z-index: 22;
+  }
+}
+
+ul {
+  list-style: none;
+
+  li:before {
+    color: $red;
+    content: "\2022";
+    font-size: 1.4rem;
+    font-weight: bold;
+    line-height: 2rem;
+    margin-left: -1.5rem;
+    margin-right: 1rem;
+  }
+}
+
+li {
+  font-size: 1.2rem;
+  display: flex;
+  line-height: 2rem;
+  // height: 2rem;
+}
+
+header, .recipe-list {
+  margin: 0 auto;
+}
+
+@media (max-width: 580px) {
+  .recipe-list {
+    max-width: 100%;
+  }
+
+  .recipe-card {
+    min-width: 340px;
+    max-width: 580px;
+  }
+}
+
+@media (min-width: 720px) {
+  .recipe-list {
+    // max-width: 720px;
+  }
+
+  .recipe-card {
+    min-width: 340px;
+    max-width: 340px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .recipe-list {
+    min-width: 1200px;
+    max-width: 1599px;
+  }
+
+  .recipe-card {
+    min-width: 520px;
+    max-width: 520px;
+  }
+}
+
+@media (min-width: 1600px) {
+  .recipe-list {
+    min-width: 1600px;
+    max-width: none;
+  }
+
+  .recipe-card {
+    min-width: 640px;
+    max-width: 640px;
+  }
+}

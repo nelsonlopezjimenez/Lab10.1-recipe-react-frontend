@@ -1,54 +1,53 @@
-import React, { Component } from 'react';
-import Form from './Form';
-import List from './List';
-import * as apiCalls from './api';
-import './App.css';
+import React, { useEffect, useState } from 'react';
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      recipes: [],
-    }
+import './style/style.scss';
 
-    this.handleSave = this.handleSave.bind(this);
-    this.onDelete = this.onDelete.bind(this);
-  }
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import RecipeList from "./components/RecipeList";
+import RecipeForm from "./components/RecipeForm";
 
-  componentDidMount() {
-    console.log("App this.props: ", this.props)
-    this.loadRecipes();
-  }
+import { getRecipes } from './api';
 
-  async loadRecipes() {
-    const recipes = await apiCalls.getRecipes();
-    console.log("App loadRecipes: ", recipes);
-    this.setState({ recipes });
-  }
+const App = () => {
+  const [ formIsToggled, setFormIsToggled ]   = useState(false);
+  const [ recipes, setRecipes ]               = useState([]);
+  const [ lastId, setLastId ]                 = useState();
 
-  async handleSave(recipe) {
-    console.log("App, handleSave : ", recipe)
-    const newRecipe = await apiCalls.createRecipe(recipe);
-    this.setState({ recipes: [...this.state.recipes, newRecipe] });
-  }
- 
-  async onDelete(id) {
-    await apiCalls.removeRecipe(id);
-    const recipes = this.state.recipes.filter(r => r.id !== id);
-    this.setState({ recipes });
-  }
 
-  render() {
+  useEffect(() => {
+    getRecipes().then(response => setRecipes(response));
+  }, []);
 
-    return (
-      <div className="App">
-        <Form
-          onSave={this.handleSave}
-        />
-        <List  recipes={this.state.recipes} />
-      </div>
-    );
-  }
-}
+  return (
+    <div className="App">
+      <Header 
+        formIsToggled={formIsToggled}
+        setFormIsToggled={setFormIsToggled}
+      />
+
+      <RecipeForm
+        isToggled={formIsToggled}
+        lastId={lastId}
+        recipes={recipes}
+        setIsToggled={setFormIsToggled}
+        setLastId={setLastId}
+        setRecipes={setRecipes}
+      />
+
+      <RecipeList
+        formIsToggled={formIsToggled}
+        lastId={lastId}
+        recipes={recipes}
+        setFormIsToggled={setFormIsToggled}
+        setRecipes={setRecipes}
+      />
+
+      <Footer 
+        formIsToggled={formIsToggled}
+      />
+    </div>
+  );
+};
 
 export default App;
