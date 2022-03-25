@@ -1,7 +1,3 @@
-import { IoMdCreate } from 'react-icons/io';
-import { MdClear } from 'react-icons/md';
-
-
 const RecipeFormControls = ({ handleReset, handleSubmit }) => {
   return (
     <div className="form-controls">

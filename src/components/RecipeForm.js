@@ -1,12 +1,10 @@
 import { useState } from "react";
-import { MdCancel } from "react-icons/md";
 
 import { createRecipe } from "../api";
 
 import RecipeFormControls from './RecipeFormControls';
 import RecipeFormIngredientInput from './RecipeFormIngredientInput';
 
-// TODO: probably need to add more props
 const RecipeForm = ({ isToggled, lastId, recipes, setIsToggled, setLastId, setRecipes }) => {
   const [ instructions, setInstructions ] = useState("");
   const [ ingredients, setIngredients ]   = useState([]);
@@ -41,20 +39,11 @@ const RecipeForm = ({ isToggled, lastId, recipes, setIsToggled, setLastId, setRe
 
   return (
     <div className={`recipe-form-container ${isToggled ? "toggled" : ""}`}>
-      {/* <div className="recipe-form-close">
-        <span 
-          className="recipe-form-close-link"
-          onClick={e => setIsToggled(!isToggled)}
-        >
-          <MdCancel />
-        </span>
-      </div> */}
-
       <form 
         className="recipe-form"
         onSubmit={handleSubmit}
       >
-      
+
         <div className="recipe-form-title-container recipe-form-input-container">
           <label htmlFor="recipe-title-input">Title:</label>
           <p>
@@ -69,7 +58,6 @@ const RecipeForm = ({ isToggled, lastId, recipes, setIsToggled, setLastId, setRe
             />
           </p>
         </div>
-
 
         <RecipeFormIngredientInput
           focusOnInstructions={focusOnInstructions}
