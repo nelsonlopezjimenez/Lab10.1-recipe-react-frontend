@@ -1,10 +1,10 @@
 {
-  "name": "vite-skeleton-1a",
+  "name": "lab10.1-react-frontend-vite",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"
