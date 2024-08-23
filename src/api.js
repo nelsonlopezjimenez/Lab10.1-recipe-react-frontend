@@ -1,12 +1,14 @@
 // const APIURL = '/api/v1/recipes/';
-const APIURL = 'http://localhost:3999/api/v1/recipe/';
+// const APIURL = 'http://localhost:3999/api/v1/recipe/';
+const APIURL = '/api/v1/recipe/';
 
 
-export async function getRecipes() {
+export async function getAllRecipes() {
 
   return fetch(APIURL)
     .then(response => {
       if (response.ok) {
+        console.log(response)
         return response.json();
       }
       else {
