@@ -1,5 +1,5 @@
 // App.jsx
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import * as apiCalls from './api.jsx';
 import './Form.css'
 import './App.css'
@@ -170,6 +170,10 @@ function App() {
     const recipes = this.state.recipes.filter((r) => r.id !== id);
     setRecipes({ recipes });
   }
+
+  useEffect (() => {
+    loadRecipes()
+  })
 
   return (
     <>
