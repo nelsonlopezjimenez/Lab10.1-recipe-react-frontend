@@ -4,6 +4,7 @@ import * as apiCalls from './api.js';
 import './Form.css'
 import './App.css'
 
+
 function Form (props) {
   const [recipe, setRecipe] = useState({
     title:'',
@@ -116,8 +117,6 @@ function Form (props) {
   )
 }
 function List (props){
-  console.log(`List.119 props:`)
-  console.log(props.recipes)
   const recipes = props.recipes.map( recipe => (
     <Recipe key={recipe._id} {...recipe}  />
   ));
@@ -129,8 +128,8 @@ function List (props){
 }
 function Recipe(props) {
     const {title, img, instructions,  _id, onDelete} = props;
-    const ingredients = props.ingredients.map((ing) => (
-      <li key={_id}>{ing}</li>
+    const ingredients = props.ingredients.map((ingr) => (
+      <li key={_id+ingr}>{ingr}</li>
     ));
     return (
       <div className="recipe-card">
@@ -156,9 +155,8 @@ function App() {
   const [recipes, setRecipes] = useState([])
 
   const loadRecipes = async () => {
-    const recipes = await apiCalls.getAllRecipes();
-    console.log('App loadRecipes: ', recipes);
-    setRecipes( recipes );
+    const data = await apiCalls.getAllRecipes();
+    setRecipes( data );
   }
 
   const handleSave = async (recipe) =>  {
@@ -167,23 +165,32 @@ function App() {
     setRecipes([...recipes, newRecipe]);
   }
 
-  const onDelete = async (id) => {
-    await apiCalls.removeRecipe(id);
-    const filteredRecipes = recipes.filter((recipe) => recipe._id !== id);
-    setRecipes(filteredRecipes);
-  }
+  // const onDelete = async (id) => {
+  //   await apiCalls.removeRecipe(id);
+  //   const filteredRecipes = recipes.filter((recipe) => recipe._id !== id);
+  //   setRecipes(filteredRecipes);
+  // }
+
+
 
   useEffect ( () => {
-    loadRecipes()
-    
-  }, [recipes]);
+    loadRecipes();
+  }, []);
+  
+  // useEffect(() => {
+  //   apiCalls.getAllRecipes().then(response => setRecipes(response));
+  // }, []);
+
+  // useEffect(() => {
+  //   getRecipes().then(response => setRecipes(response));
+  // }, []);
 
   return (
     <>
       <div className="App">
         <h1>This is my Recipes List</h1>
-        <Form  />
-        <List recipes={recipes} />
+        <Form  onSubmit={handleSave}/>
+        <List recipes={recipes}  />
       </div>
     </>
   )
