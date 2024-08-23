@@ -1,4 +1,21 @@
-# React + Vite
+# Log
+
+## 8.23.2024 m.d.y
+
+1. vite-react branch cors issues unresolved
+1. lab10.1-recipe-react-frontend branch main externally installed
+1. npx create-react-app
+1. But before
+```sh
+source nvs.sh
+nvs
+```
+1. selection b: node 20.11.0
+1. npm version: 10.2.4
+1. package*.* copied to Lab10.1-recipe-react-frontend
+1. 
+
+## React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
