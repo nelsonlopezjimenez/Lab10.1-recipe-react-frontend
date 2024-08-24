@@ -53,15 +53,27 @@ function Form (props) {
     })
   }
 
-  const handleSubmit= (event) => {
-    event.preventdefault();
-    console.log(event.target.name)
-    return null;
+  const handleAlert= (event) => {
+    console.log(oneRecipe)
+    // alert(event.target.title)
+  }
+  const onSave = (event) => {
+    event.preventDefault();
+    console.log(oneRecipe);
+    props.onSave(oneRecipe)
+    setOneRecipe({
+      title:'',
+      instructions:'',
+      ingredients: [''],
+      img:''
+    })
   }
   return (
     <>
        <div className="recipe-form-container">
-        <form className='recipe-form' onSubmit={handleSubmit}>
+        <form className='recipe-form' onSubmit={ onSave} >
+        {/* <form className='recipe-form' onClick={(e)=> handleAlert(e)}> */}
+        {/* <form className='recipe-form' onSubmit={() => alert()}> */}
           <button
             type="button"
             className="close-button"
@@ -124,14 +136,15 @@ function Form (props) {
           >
             SAVE
           </button>
+          <button onClick={e => handleAlert(e)}>ALERT</button>
         </form>
       </div>
     </>
   )
 }
 function List (props){
-  console.log(props.recipes.length); // props.recipe.length = 7
-  const data = props.recipes.map( recipe => (
+  console.log(props.recipes?.length); // props.recipe.length = 7
+  const data = props.recipes?.map( recipe => (
     <Recipe key={recipe._id} {...recipe} onDelete1={props.onDelete1} alertwId={props.alertwId} alertOne={props.alertOne}/>
   ));
   return(
@@ -169,7 +182,7 @@ function Recipe(props) {
 
 function App() {
   const [recipes, setRecipes] = useState([])
-  const [oneRecipe, setOneRecipe ] = useState([]);
+  const [oneRecipeGet, setOneRecipeGet ] = useState([]);
 
   const loadRecipes = async () => {
     const data = await apiCalls.getAllRecipes();
@@ -177,10 +190,16 @@ function App() {
     setRecipes( data );
   }
 
+  const handleSaveX  = item => (alert());
+
   const handleSave = async (recipe) =>  {
     console.log('App, handleSave : ', recipe);
-    const newRecipe = await apiCalls.createRecipe(recipe);
-    setRecipes([...recipes, newRecipe]);
+    try {
+      const newRecipe = await apiCalls.createRecipe(recipe);
+      setRecipes([...recipes, newRecipe]);
+    } catch(error){
+      console.log(error)
+    }
   }
 
   const onDelete1 = async (id) => {
@@ -189,7 +208,7 @@ function App() {
     setRecipes(filteredRecipes);
   }
   const alertWithId = async (id) => {
-    alert(`<h1>${id}</h1>`);
+    alert(id);
   }
   const alertOne = async (id) => {
     const filteredRecipes = recipes.filter((recipe) => recipe._id === id);
@@ -215,11 +234,11 @@ function App() {
     <>
       <div className="App">
         <h1>My Recipes List</h1>
-        <Form  handleSubmit={handleSave}/>
+        <Form  onSave={handleSave}/>
        
-        {oneRecipe? "one recipe": 'list or recipes'}
+        {oneRecipeGet? "one recipe": 'list or recipes'}
         <List recipes={recipes} onDelete1={onDelete1} alertwId={alertWithId} alertOne={alertOne} />
-        {oneRecipe}
+        {oneRecipeGet}
       </div>
     </>
   )
