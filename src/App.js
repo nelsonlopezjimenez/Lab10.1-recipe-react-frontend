@@ -17,21 +17,14 @@ function Form (props) {
   })
   const handleChangeIng = (event) => {
     const index = Number(event.target.name.split('-')[1]);
-    const ingredients = oneRecipe.ingredients.map( (ingr, i) => {
-      console.log(event.target.name + " ===== " + event.target.value)
-      return i === index  ? event.target.value: ingr
-    })
+    const ingredients = oneRecipe.ingredients.map( (ingr, i) => (
+      i === index  ? event.target.value: ingr
+    ))
     setOneRecipe((prevItem) => {
       return {...prevItem, ingredients}
     })
   }
-    // =========== error in mapping ingredients
-  const handleChangeX = (event) => {
-    setOneRecipe({[event.target.name]: event.target.value})
-  }
   const handleChange = (event) => {
-    console.log(event.target.name + " -----  " + event.target.value);
-    // console.log(event.target)
     setOneRecipe((prevItem) => {
       return {...prevItem, [event.target.name]: event.target.value }
     })
