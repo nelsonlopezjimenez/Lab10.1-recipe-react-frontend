@@ -33,7 +33,7 @@ export const getAllRecipes = async () => {
 export const createRecipeX = async newItem => {
   const myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
-  
+
   const data = await fetch(APIURL, {
     method: "post",
     body: JSON.stringify(newItem),
@@ -47,7 +47,7 @@ export const createRecipe =  ( async (recipe) => {
   console.log(JSON.stringify(recipe));
   try {
     let data = await fetch(APIURL, {
-      method: "post", headers: {"Content-Type":"application/json"},
+      method: 'post', headers: {"Content-Type":"application/json"},
       body: JSON.stringify(recipe),
     })
     let result = await data.json();
@@ -57,7 +57,11 @@ export const createRecipe =  ( async (recipe) => {
   }
 })
 
-
+export const onEdit = async id => {
+  const data = await fetch(APIURL + id);
+  const result = await data.json();
+  return result;
+}
 
 export const removeRecipe = ( async (id) => {
   try {

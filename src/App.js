@@ -145,7 +145,7 @@ function Form (props) {
 function List (props){
   console.log(props.recipes?.length); // props.recipe.length = 7
   const data = props.recipes?.map( recipe => (
-    <Recipe key={recipe._id} {...recipe} onDelete1={props.onDelete1} alertwId={props.alertwId} alertOne={props.alertOne}/>
+    <Recipe key={recipe._id} {...recipe} onDelete1={props.onDelete1} onEdit={props.onEdit} alertwId={props.alertwId} alertOne={props.alertOne}/>
   ));
   return(
     <div className='recipe-list'>
@@ -174,6 +174,7 @@ function Recipe(props) {
           <button type="button" onClick={() => props.onDelete1(props._id)}>DELETE</button>
           {/* <button type="button" onClick={() => alert(props._id)}>ALERT</button> */}
           <button type="button" onClick={() => props.alertwId(props._id)}>ALERT WITH ID</button>
+          <button type="button" onClick={() => props.onEdit(props._id)}>Edit Recipe</button>
         </div>
       </div>
     );
@@ -216,7 +217,11 @@ function App() {
     console.log(filteredRecipes)
     setRecipes(filteredRecipes)
   }
+  const onEdit = async id => {
+    const data = await apiCalls.onEdit(id);
+    console.log(data)
 
+  }
 
   useEffect ( () => {
     loadRecipes();
@@ -238,7 +243,7 @@ function App() {
         <Form  onSave={handleSave}/>
        
         {oneRecipeGet? "one recipe": 'list or recipes'}
-        <List recipes={recipes} onDelete1={onDelete1} alertwId={alertWithId} alertOne={alertOne} />
+        <List recipes={recipes} onDelete1={onDelete1} alertwId={alertWithId} alertOne={alertOne} onEdit={onEdit}/>
         {oneRecipeGet}
       </div>
     </>
