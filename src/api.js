@@ -4,7 +4,7 @@ const APIURL = 'http://10.0.0.104:3999/api/v1/recipe/';
 
 export const getAllRecipes = async () => {
   let result = null;
-  let error = null;
+  // let error = null; //is assigned a value but never used
   try{
     let data = await fetch(APIURL);
     console.log(data.status)

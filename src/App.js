@@ -12,9 +12,22 @@ function Form (props) {
   const [oneRecipe, setOneRecipe] = useState({
     title:'',
     instructions:'',
-    ingredients: [],
+    ingredients: [''],
     img:''
   })
+  const handleChangeIng = (event) => {
+    console.log(event.target.name + " - " + event.target.value);
+    setOneRecipe(item => {
+      return  {...item, ingredients: [...item.ingredients, event.target.value]}
+    })
+  }
+  const handleChange= (event) => {
+    console.log(event.target.name);
+    console.log(event.target)
+    setOneRecipe((item) => {
+      return {...item, [event.target.name]: event.target.value }
+    })
+  }
 
   let inputs = oneRecipe.ingredients.map((ing, i) => (
     <div
@@ -36,15 +49,9 @@ function Form (props) {
   const handleNewIngredient= () => {
     return null;
   }
-  const handleChange= (event) => {
-    console.log(event.target.name);
-    console.log(event.target)
-    
-  }
-  const handleChangeIng= () => {
-    return null;
-  }
+
   const handleSubmit= (event) => {
+    event.preventdefault();
     console.log(event.target.name)
     return null;
   }
@@ -190,7 +197,7 @@ function App() {
 
   useEffect ( () => {
     loadRecipes();
-    console.log(recipes);// []
+    // console.log(recipes);// []
   }, []);
   
   // useEffect(() => {
@@ -205,7 +212,7 @@ function App() {
     <>
       <div className="App">
         <h1>My Recipes List</h1>
-        <Form  onSubmit={handleSave}/>
+        <Form  handleSubmit={handleSave}/>
        
         {oneRecipe? "one recipe": 'list or recipes'}
         <List recipes={recipes} onDelete1={onDelete1} alertwId={alertWithId} alertOne={alertOne} />
