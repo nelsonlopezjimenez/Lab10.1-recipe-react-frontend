@@ -1,79 +1,41 @@
 // const APIURL = '/api/v1/recipes/';
-const APIURL = 'http://localhost:3999/api/v1/recipe';
-// const APIURL = '/api/v1/recipe';
+const APIURL = 'http://10.0.0.104:3999/api/v1/recipe/';
+// const APIURL = '/api/v1/recipe'; // when using a proxy in frontend package.json file
 
 export const getAllRecipes = async () => {
-  let data = await fetch(APIURL);
-  let result = await data.json();
-  return result;
+  let result = null;
+  let error = null;
+  try{
+    let data = await fetch(APIURL);
+    console.log(data.status)
+    result = await data.json();
+    return result;
+  } catch (error){
+    console.log(error);
+  }
 }
 
-// export async function getRecipes() {
 
-//   return fetch(APIURL)
-//     .then(response => {
-//       if (response.ok) {
-//         console.log(response)
-//         return response.json().then(data => data);
-//       }
-//       else {
-//         if (!response.ok) {
-//           if (response.status >= 400 && response.status < 500) {
-//             return response.json().then(data => {
-//               let err = { errorMessage: data.message };
-//               throw err;
-//             })
-//           }
-//           else {
-//             let err = { errorMessage: 'Please try again later, server is not responding' };
-//             throw err;
-//           }
-//         }
-//       }
-//     })
-//   }
-
-export async function createRecipe(recipe) {
-  return fetch(APIURL, {
-    method: 'post',
-    headers: new Headers({
-      'Content-Type': 'application/json',
-    }),
-    body: JSON.stringify(recipe)
-  })
-    .then(resp => {
-      if (!resp.ok) {
-        if (resp.status >= 400 && resp.status < 500) {
-          return resp.json().then(data => {
-            let err = { errorMessage: data.message };
-            throw err;
-          })
-        } else {
-          let err = { errorMessage: 'Please try again later, server is not responding' };
-          throw err;
-        }
-      }
-      return resp.json();
+export const createRecipe =  ( async recipe => {
+  try {
+    let data = await fetch(APIURL, {
+      method: 'post', headers: new Headers({'Content-type': 'aplication/json',}), 
+      body: JSON.stringify(recipe),
     })
-}
+    let result = data.json();
+    return result;
+  } catch (error){
+    console.log(error);
+  }
+})
 
-// export async function removeRecipe(id) {
-//   const deleteURL = APIURL + id;
-//   return fetch(deleteURL, {
-//     method: 'delete'
-//   })
-//     .then(resp => {
-//       if (!resp.ok) {
-//         if (resp.status >= 400 && resp.status < 500) {
-//           return resp.json().then(data => {
-//             let err = { errorMessage: data.message };
-//             throw err;
-//           })
-//         } else {
-//           let err = { errorMessage: 'Please try again later, server is not responding' };
-//           throw err;
-//         }
-//       }
-//       return resp.json();
-//     })
-//
+
+
+export const removeRecipe = ( async id => {
+  console.log(id)
+  let data = await fetch(APIURL + id, { method: 'delete'})
+  let result = await data.json();
+  console.log(result)
+  return result;
+})
+

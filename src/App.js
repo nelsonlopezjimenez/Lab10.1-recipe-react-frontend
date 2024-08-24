@@ -1,8 +1,11 @@
-// App.jsx
+// App.js
 import { useState, useEffect } from 'react';
 import * as apiCalls from './api.js';
 import './Form.css'
-import './App.css'
+import './App.css';
+import './List.css'
+import './Recipe.css'
+
 
 
 function Form (props) {
@@ -117,34 +120,36 @@ function Form (props) {
   )
 }
 function List (props){
-  const recipes = props.recipes.map( recipe => (
-    <Recipe key={recipe._id} {...recipe}  />
+  console.log(props.recipes.length); // props.recipe.length = 7
+  const data = props.recipes.map( recipe => (
+    <Recipe key={recipe._id} {...recipe} onDelete1={props.onDelete1} />
   ));
   return(
     <div className='recipe-list'>
-       {recipes}
+       {data}
     </div>
   )
 }
 function Recipe(props) {
-    const {title, img, instructions,  _id, onDelete} = props;
+    // const {title, img, instructions,  _id, onDelete} = props;
     const ingredients = props.ingredients.map((ingr) => (
-      <li key={_id+ingr}>{ingr}</li>
+      <li key={ingr}>{ingr}</li>
     ));
     return (
       <div className="recipe-card">
         <div className="recipe-card-img">
-          <img src={img} alt={title} />
+          <img src={props.img} alt={props.title} />
         </div>
         <div className="recipe-card-content">
-          <h3 className="recipe-title">{title}</h3>
+          <h3 className="recipe-title">{props.title}</h3>
           <h4>Ingredients:</h4>
           <ul>
             {ingredients}
           </ul>
           <h4>Instructions:</h4>
-          <p>{instructions}</p>
-          <button type="button" onClick={() => onDelete(_id)}>DELETE</button>
+          <p>{props.instructions}</p>
+          <button type="button" onClick={() => props.onDelete1(props._id)}>DELETE</button>
+          {/* <button type="button" onClick={() => alert(props._id)}>ALERT</button> */}
         </div>
       </div>
     );
@@ -156,6 +161,7 @@ function App() {
 
   const loadRecipes = async () => {
     const data = await apiCalls.getAllRecipes();
+    // console.log(data); // [{},{},{},{}] from mongoDb
     setRecipes( data );
   }
 
@@ -165,16 +171,19 @@ function App() {
     setRecipes([...recipes, newRecipe]);
   }
 
-  // const onDelete = async (id) => {
-  //   await apiCalls.removeRecipe(id);
-  //   const filteredRecipes = recipes.filter((recipe) => recipe._id !== id);
-  //   setRecipes(filteredRecipes);
-  // }
-
+  const onDelete1 = async (id) => {
+    await apiCalls.removeRecipe(id);
+    const filteredRecipes = recipes.filter((recipe) => recipe._id !== id);
+    setRecipes(filteredRecipes);
+  }
+  const onDelete = async (id) => {
+    alert(id);
+  }
 
 
   useEffect ( () => {
     loadRecipes();
+    console.log(recipes);// []
   }, []);
   
   // useEffect(() => {
@@ -189,8 +198,8 @@ function App() {
     <>
       <div className="App">
         <h1>This is my Recipes List</h1>
-        <Form  onSubmit={handleSave}/>
-        <List recipes={recipes}  />
+        {/* <Form  onSubmit={handleSave}/> */}
+        <List recipes={recipes} onDelete1={onDelete1} />
       </div>
     </>
   )
