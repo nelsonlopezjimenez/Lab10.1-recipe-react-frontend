@@ -60,7 +60,7 @@ function Form (props) {
   const onSave = (event) => {
     event.preventDefault();
     console.log(oneRecipe);
-    props.onSave(oneRecipe)
+    props.onSave({...oneRecipe})
     setOneRecipe({
       title:'',
       instructions:'',
@@ -185,7 +185,8 @@ function App() {
   const [oneRecipeGet, setOneRecipeGet ] = useState([]);
 
   const loadRecipes = async () => {
-    const data = await apiCalls.getAllRecipes();
+    // const data = await apiCalls.getAllRecipes();
+    const data = await apiCalls.getAllData();
     // console.log(data); // [{},{},{},{}] from mongoDb
     setRecipes( data );
   }
