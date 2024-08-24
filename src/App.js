@@ -16,16 +16,24 @@ function Form (props) {
     img:''
   })
   const handleChangeIng = (event) => {
-    console.log(event.target.name + " - " + event.target.value);
-    setOneRecipe(item => {
-      return  {...item, ingredients: [...item.ingredients, event.target.value]}
+    const index = Number(event.target.name.split('-')[1]);
+    const ingredients = oneRecipe.ingredients.map( (ingr, i) => {
+      console.log(event.target.name + " ===== " + event.target.value)
+      return i === index  ? event.target.value: ingr
+    })
+    setOneRecipe((prevItem) => {
+      return {...prevItem, ingredients}
     })
   }
-  const handleChange= (event) => {
+    // =========== error in mapping ingredients
+  const handleChangeX = (event) => {
+    setOneRecipe({[event.target.name]: event.target.value})
+  }
+  const handleChange = (event) => {
     console.log(event.target.name + " -----  " + event.target.value);
     // console.log(event.target)
-    setOneRecipe((item) => {
-      return {...item, [event.target.name]: event.target.value }
+    setOneRecipe((prevItem) => {
+      return {...prevItem, [event.target.name]: event.target.value }
     })
   }
 
@@ -46,8 +54,10 @@ function Form (props) {
       </label>
     </div>
   ));
-  const handleNewIngredient= () => {
-    return null;
+  const handleNewIngredient= (event) => {
+    setOneRecipe( prevItem => {
+      return {...prevItem, ingredients: [...prevItem.ingredients, ""]}
+    })
   }
 
   const handleSubmit= (event) => {
