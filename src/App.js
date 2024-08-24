@@ -158,6 +158,25 @@ function Recipe(props) {
     const ingredients = props.ingredients.map((ingr) => (
       <li key={ingr}>{ingr}</li>
     ));
+    const recipeFooter = (flag) => {
+      if (!flag){
+        return (
+          <>
+           <button type="button" onClick={() => props.onDelete1(props._id)}>DELETE</button>
+          {/* <button type="button" onClick={() => alert(props._id)}>ALERT</button> */}
+          <button type="button" onClick={() => props.alertwId(props._id)}>ALERT WITH ID</button>
+          </>
+        ) 
+      } else {
+        return (
+          <>
+          <button type="button" onClick={() => props.onEdit(props._id)}>EDIT RECIPE</button>
+          <button type="button" onClick={() => props.onEdit(props._id)}>CANCEL</button>
+          </>
+        ) 
+        }
+  
+    }
     return (
       <div className="recipe-card" >
         <div className="recipe-card-img">
@@ -171,10 +190,9 @@ function Recipe(props) {
           </ul>
           <h4>Instructions:</h4>
           <p>{props.instructions}</p> 
-          <button type="button" onClick={() => props.onDelete1(props._id)}>DELETE</button>
-          {/* <button type="button" onClick={() => alert(props._id)}>ALERT</button> */}
-          <button type="button" onClick={() => props.alertwId(props._id)}>ALERT WITH ID</button>
-          <button type="button" onClick={() => props.onEdit(props._id)}>Edit Recipe</button>
+
+          {recipeFooter(props.oneRecipeEdit)}
+        
         </div>
       </div>
     );
@@ -183,7 +201,7 @@ function Recipe(props) {
 
 function App() {
   const [recipes, setRecipes] = useState([])
-  const [oneRecipeGet, setOneRecipeGet ] = useState([]);
+  const [oneRecipeEdit, setOneRecipeEdit ] = useState(true);
 
   const loadRecipes = async () => {
     // const data = await apiCalls.getAllRecipes();
@@ -218,9 +236,11 @@ function App() {
     setRecipes(filteredRecipes)
   }
   const onEdit = async id => {
-    const data = await apiCalls.onEdit(id);
-    console.log(data)
-
+    const toEdit = recipes.filter( item => item._id === id);
+    // const data = await apiCalls.onEdit(id);
+    console.log(toEdit)
+    // console.log(data);
+    return toEdit[0]
   }
 
   useEffect ( () => {
@@ -242,9 +262,9 @@ function App() {
         <h1>My Recipes List</h1>
         <Form  onSave={handleSave}/>
        
-        {oneRecipeGet? "one recipe": 'list or recipes'}
-        <List recipes={recipes} onDelete1={onDelete1} alertwId={alertWithId} alertOne={alertOne} onEdit={onEdit}/>
-        {oneRecipeGet}
+        {oneRecipeEdit? <Form onEdit={onEdit} />: 'list or recipes'}
+        <List recipes={recipes} onDelete1={onDelete1} alertwId={alertWithId} alertOne={alertOne} onEdit={onEdit} />
+        {oneRecipeEdit}
       </div>
     </>
   )
