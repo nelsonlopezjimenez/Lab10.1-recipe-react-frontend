@@ -9,14 +9,14 @@ import './Recipe.css'
 
 
 function Form (props) {
-  const [recipe, setRecipe] = useState({
+  const [oneRecipe, setOneRecipe] = useState({
     title:'',
     instructions:'',
     ingredients: [],
     img:''
   })
 
-  let inputs = recipe.ingredients.map((ing, i) => (
+  let inputs = oneRecipe.ingredients.map((ing, i) => (
     <div
       className="recipe-form-line"
       key={`ingredient-${i}`}
@@ -39,7 +39,7 @@ function Form (props) {
   const handleChange= (event) => {
     console.log(event.target.name);
     console.log(event.target)
-    return null;
+    
   }
   const handleChangeIng= () => {
     return null;
@@ -66,7 +66,7 @@ function Form (props) {
               key='title'
               name='title'
               type='text'
-              value={recipe.title}
+              value={oneRecipe.title}
               size={42}
               autoComplete="off"
               onChange={handleChange}/>
@@ -85,7 +85,7 @@ function Form (props) {
             rows='8'
             cols='50'
             autoComplete='off'
-            value={recipe.instructions}
+            value={oneRecipe.instructions}
             onChange={handleChange}/>
           {inputs}
           <button
@@ -102,7 +102,7 @@ function Form (props) {
               type='text'
               placeholder=''
               name='img'
-              value={recipe.img}
+              value={oneRecipe.img}
               size={36}
               autoComplete='off'
               onChange={handleChange} />
@@ -122,7 +122,7 @@ function Form (props) {
 function List (props){
   console.log(props.recipes.length); // props.recipe.length = 7
   const data = props.recipes.map( recipe => (
-    <Recipe key={recipe._id} {...recipe} onDelete1={props.onDelete1} />
+    <Recipe key={recipe._id} {...recipe} onDelete1={props.onDelete1} alertwId={props.alertwId} alertOne={props.alertOne}/>
   ));
   return(
     <div className='recipe-list'>
@@ -136,9 +136,9 @@ function Recipe(props) {
       <li key={ingr}>{ingr}</li>
     ));
     return (
-      <div className="recipe-card">
+      <div className="recipe-card" >
         <div className="recipe-card-img">
-          <img src={props.img} alt={props.title} />
+          <img src={props.img} alt={props.title} onClick={() => props.alertOne(props._id)} />
         </div>
         <div className="recipe-card-content">
           <h3 className="recipe-title">{props.title}</h3>
@@ -147,9 +147,10 @@ function Recipe(props) {
             {ingredients}
           </ul>
           <h4>Instructions:</h4>
-          <p>{props.instructions}</p>
+          <p>{props.instructions}</p> 
           <button type="button" onClick={() => props.onDelete1(props._id)}>DELETE</button>
           {/* <button type="button" onClick={() => alert(props._id)}>ALERT</button> */}
+          <button type="button" onClick={() => props.alertwId(props._id)}>ALERT WITH ID</button>
         </div>
       </div>
     );
@@ -158,6 +159,7 @@ function Recipe(props) {
 
 function App() {
   const [recipes, setRecipes] = useState([])
+  const [oneRecipe, setOneRecipe ] = useState([]);
 
   const loadRecipes = async () => {
     const data = await apiCalls.getAllRecipes();
@@ -176,8 +178,13 @@ function App() {
     const filteredRecipes = recipes.filter((recipe) => recipe._id !== id);
     setRecipes(filteredRecipes);
   }
-  const onDelete = async (id) => {
-    alert(id);
+  const alertWithId = async (id) => {
+    alert(`<h1>${id}</h1>`);
+  }
+  const alertOne = async (id) => {
+    const filteredRecipes = recipes.filter((recipe) => recipe._id === id);
+    console.log(filteredRecipes)
+    setRecipes(filteredRecipes)
   }
 
 
@@ -191,15 +198,18 @@ function App() {
   // }, []);
 
   // useEffect(() => {
-  //   getRecipes().then(response => setRecipes(response));
+  //   getAllRecipes().then(response => setRecipes(response));
   // }, []);
 
   return (
     <>
       <div className="App">
-        <h1>This is my Recipes List</h1>
-        {/* <Form  onSubmit={handleSave}/> */}
-        <List recipes={recipes} onDelete1={onDelete1} />
+        <h1>My Recipes List</h1>
+        <Form  onSubmit={handleSave}/>
+       
+        {oneRecipe? "one recipe": 'list or recipes'}
+        <List recipes={recipes} onDelete1={onDelete1} alertwId={alertWithId} alertOne={alertOne} />
+        {oneRecipe}
       </div>
     </>
   )

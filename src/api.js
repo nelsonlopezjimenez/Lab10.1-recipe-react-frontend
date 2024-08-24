@@ -16,7 +16,7 @@ export const getAllRecipes = async () => {
 }
 
 
-export const createRecipe =  ( async recipe => {
+export const createRecipe =  ( async (recipe) => {
   try {
     let data = await fetch(APIURL, {
       method: 'post', headers: new Headers({'Content-type': 'aplication/json',}), 
@@ -31,11 +31,24 @@ export const createRecipe =  ( async recipe => {
 
 
 
-export const removeRecipe = ( async id => {
-  console.log(id)
-  let data = await fetch(APIURL + id, { method: 'delete'})
-  let result = await data.json();
-  console.log(result)
-  return result;
+export const removeRecipe = ( async (id) => {
+  try {
+    let data = await fetch(APIURL + id, { method: 'delete'})
+    let result = await data.json();
+    console.log(result)
+    return result;
+  } catch (error){
+    console.log(error)
+  }
+})
+
+export const getOneRecipe = ( async (id) => {
+  try {
+    let data = await fetch(APIURL + id, { method: 'get'})
+    let result = await data.json();
+    return result;
+  } catch (error){
+    console.log(error)
+  }
 })
 
