@@ -22,8 +22,8 @@ function Form (props) {
     })
   }
   const handleChange= (event) => {
-    console.log(event.target.name);
-    console.log(event.target)
+    console.log(event.target.name + " -----  " + event.target.value);
+    // console.log(event.target)
     setOneRecipe((item) => {
       return {...item, [event.target.name]: event.target.value }
     })
