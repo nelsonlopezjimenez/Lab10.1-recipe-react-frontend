@@ -18,7 +18,7 @@ function Form (props) {
   const handleChangeIng = (event) => {
     const index = Number(event.target.name.split('-')[1]);
     const ingredients = oneRecipe.ingredients.map( (ingr, i) => (
-      i === index  ? event.target.value: ingr
+      i === index  ? event.target.value : ingr
     ))
     setOneRecipe((prevItem) => {
       return {...prevItem, ingredients}
