@@ -1,84 +1,76 @@
-import React, {Component} from 'react';
-import './Form.css';
+import { useState } from 'react';
+import './Form.css'
 
-class Form extends Component {
-  static defaultProps = {
-    onClose() {},
-    onSave() {}
+function Form(props) {
+  const [oneRecipe, setOneRecipe] = useState({
+    title: '',
+    instructions: '',
+    ingredients: [''],
+    img: ''
+  })
+  const handleChangeIng = (event) => {
+    const index = Number(event.target.name.split('-')[1]);
+    const ingredients = oneRecipe.ingredients.map((ingr, i) => (
+      i === index ? event.target.value : ingr
+    ))
+    setOneRecipe((prevItem) => {
+      return { ...prevItem, ingredients }
+    })
   }
-  
-  constructor(props) {
-    super(props);
-    this.state = {
-      title: '',
-      instructions: "",
-      ingredients: [''],
-      img: ''
-    };
-    
-    this.handleChange = this.handleChange.bind(this);
-    this.handleNewIngredient = this.handleNewIngredient.bind(this);
-    this.handleChangeIng = this.handleChangeIng.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+  const handleChange = (event) => {
+    setOneRecipe((prevItem) => {
+      return { ...prevItem, [event.target.name]: event.target.value }
+    })
   }
-  
-  handleChange(e) {
-    this.setState({[e.target.name]: e.target.value});
+
+  let inputs = oneRecipe.ingredients.map((ing, i) => (
+    <div
+      className="recipe-form-line"
+      key={`ingredient-${i}`}
+    >
+      <label>{i + 1}.
+        <input
+          type="text"
+          name={`ingredient-${i}`}
+          value={ing}
+          size={45}
+          autoComplete="off"
+          placeholder=" Ingredient"
+          onChange={handleChangeIng} />
+      </label>
+    </div>
+  ));
+  const handleNewIngredient = (event) => {
+    setOneRecipe(prevItem => {
+      return { ...prevItem, ingredients: [...prevItem.ingredients, ""] }
+    })
   }
-  
-  handleNewIngredient(e) {
-    const {ingredients} = this.state;
-    this.setState({ingredients: [...ingredients, '']});
+
+  const handleAlert = (event) => {
+    console.log(oneRecipe)
+    // alert(event.target.title)
   }
-  
-  handleChangeIng(e) {
-    const index = Number(e.target.name.split('-')[1]);
-    const ingredients = this.state.ingredients.map((ing, i) => (
-      i === index ? e.target.value : ing
-    ));
-    this.setState({ingredients});
-  }
-  
-  handleSubmit(e) {
-    console.log("RecipeInput, handleSubmit ", this.state)
-    e.preventDefault();
-    this.props.onSave({...this.state});
-    this.setState({
+  const onSave = (event) => {
+    event.preventDefault();
+    console.log(oneRecipe);
+    props.onSave({ ...oneRecipe })
+    setOneRecipe({
       title: '',
       instructions: '',
       ingredients: [''],
       img: ''
     })
   }
-  
-  render() {
-    const {title, instructions, img, ingredients} = this.state;
-    const {onClose} = this.props;
-    let inputs = ingredients.map((ing, i) => (
-      <div
-        className="recipe-form-line"
-        key={`ingredient-${i}`}
-      >
-        <label>{i+1}.
-          <input
-            type="text"
-            name={`ingredient-${i}`}
-            value={ing}
-            size={45}
-            autoComplete="off"
-            placeholder=" Ingredient"
-            onChange={this.handleChangeIng} />
-        </label>
-      </div>
-    ));
-    
-    return (
+  return (
+    <>
       <div className="recipe-form-container">
-        <form className='recipe-form' onSubmit={this.handleSubmit}>
+        <form className='recipe-form' onSubmit={onSave} >
+          {/* <form className='recipe-form' onClick={(e)=> handleAlert(e)}> */}
+          {/* <form className='recipe-form' onSubmit={() => alert()}> */}
           <button
             type="button"
             className="close-button"
-            onClick={onClose}
+          // onClick={onClose}
           >
             X
           </button>
@@ -89,14 +81,14 @@ class Form extends Component {
               key='title'
               name='title'
               type='text'
-              value={title}
+              value={oneRecipe.title}
               size={42}
               autoComplete="off"
-              onChange={this.handleChange}/>
+              onChange={handleChange} />
           </div>
           <label
             htmlFor='recipe-instructions-input'
-            style={{marginTop: '5px'}}
+            style={{ marginTop: '5px' }}
           >
             Instructions
           </label>
@@ -108,12 +100,12 @@ class Form extends Component {
             rows='8'
             cols='50'
             autoComplete='off'
-            value={instructions}
-            onChange={this.handleChange}/>
+            value={oneRecipe.instructions}
+            onChange={handleChange} />
           {inputs}
           <button
             type="button"
-            onClick={this.handleNewIngredient}
+            onClick={handleNewIngredient}
             className="buttons"
           >
             +
@@ -125,22 +117,22 @@ class Form extends Component {
               type='text'
               placeholder=''
               name='img'
-              value={img}
+              value={oneRecipe.img}
               size={36}
               autoComplete='off'
-              onChange={this.handleChange} />
+              onChange={handleChange} />
           </div>
           <button
             type="submit"
             className="buttons"
-            style={{alignSelf: 'flex-end', marginRight: 0}}
+            style={{ alignSelf: 'flex-end', marginRight: 0 }}
           >
             SAVE
           </button>
+          <button onClick={e => handleAlert(e)}>ALERT</button>
         </form>
       </div>
-    )
-  }
+    </>
+  )
 }
-
 export default Form;
