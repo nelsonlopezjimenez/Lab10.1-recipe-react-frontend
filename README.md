@@ -1,5 +1,9 @@
 # Log
 
+## 11.2.2024 mdy
+1. Start  cleaning. Get rid of vite files and refactor class components into function components
+1. npm update before running npm install
+
 ## 8.23.2024 m.d.y
 
 1. vite-react branch cors issues unresolved
