@@ -7,26 +7,51 @@ import './List.css'
 import './Recipe.css'
 
 
+const recipeThree = 
+  [
 
-function Form (props) {
+    {
+      id: 0,
+      title: "Spaghetti",
+      instructions: "Open jar of Spaghetti sauce.  Bring to simmer.  Boil water.  Cook pasta until done.  Combine pasta and sauce",
+      ingredients: ["pasta", "8 cups water", "1 box spaghetti"],
+      img: "spaghetti.jpg"
+    },
+    {
+      id: 1,
+      title: "Milkshake",
+      instructions: "Combine ice cream and milk.  Blend until creamy",
+      ingredients: ["2 Scoops Ice cream", "8 ounces milk"],
+      img: "milkshake.jpg"
+    },
+    {
+      id: 2,
+      title: "Avocado Toast",
+      instructions: "Toast bread.  Slice avocado and spread on bread.  Add salt, oil, and pepper to taste.",
+      ingredients: ["2 slices of bread", "1 avocado", "1 tablespoon olive oil", "1 pinch of salt", "pepper"],
+      img: "avocado_toast.jpg"
+    }
+  ]
+
+function Form(props) {
   const [oneRecipe, setOneRecipe] = useState({
-    title:'',
-    instructions:'',
+    title: '',
+    instructions: '',
     ingredients: [''],
-    img:''
+    img: ''
   })
   const handleChangeIng = (event) => {
     const index = Number(event.target.name.split('-')[1]);
-    const ingredients = oneRecipe.ingredients.map( (ingr, i) => (
-      i === index  ? event.target.value : ingr
+    const ingredients = oneRecipe.ingredients.map((ingr, i) => (
+      i === index ? event.target.value : ingr
     ))
     setOneRecipe((prevItem) => {
-      return {...prevItem, ingredients}
+      return { ...prevItem, ingredients }
     })
   }
   const handleChange = (event) => {
     setOneRecipe((prevItem) => {
-      return {...prevItem, [event.target.name]: event.target.value }
+      return { ...prevItem, [event.target.name]: event.target.value }
     })
   }
 
@@ -35,7 +60,7 @@ function Form (props) {
       className="recipe-form-line"
       key={`ingredient-${i}`}
     >
-      <label>{i+1}.
+      <label>{i + 1}.
         <input
           type="text"
           name={`ingredient-${i}`}
@@ -47,37 +72,37 @@ function Form (props) {
       </label>
     </div>
   ));
-  const handleNewIngredient= (event) => {
-    setOneRecipe( prevItem => {
-      return {...prevItem, ingredients: [...prevItem.ingredients, ""]}
+  const handleNewIngredient = (event) => {
+    setOneRecipe(prevItem => {
+      return { ...prevItem, ingredients: [...prevItem.ingredients, ""] }
     })
   }
 
-  const handleAlert= (event) => {
+  const handleAlert = (event) => {
     console.log(oneRecipe)
     // alert(event.target.title)
   }
   const onSave = (event) => {
     event.preventDefault();
     console.log(oneRecipe);
-    props.onSave({...oneRecipe})
+    props.onSave({ ...oneRecipe })
     setOneRecipe({
-      title:'',
-      instructions:'',
+      title: '',
+      instructions: '',
       ingredients: [''],
-      img:''
+      img: ''
     })
   }
   return (
     <>
-       <div className="recipe-form-container">
-        <form className='recipe-form' onSubmit={ onSave} >
-        {/* <form className='recipe-form' onClick={(e)=> handleAlert(e)}> */}
-        {/* <form className='recipe-form' onSubmit={() => alert()}> */}
+      <div className="recipe-form-container">
+        <form className='recipe-form' onSubmit={onSave} >
+          {/* <form className='recipe-form' onClick={(e)=> handleAlert(e)}> */}
+          {/* <form className='recipe-form' onSubmit={() => alert()}> */}
           <button
             type="button"
             className="close-button"
-            // onClick={onClose}
+          // onClick={onClose}
           >
             X
           </button>
@@ -91,11 +116,11 @@ function Form (props) {
               value={oneRecipe.title}
               size={42}
               autoComplete="off"
-              onChange={handleChange}/>
+              onChange={handleChange} />
           </div>
           <label
             htmlFor='recipe-instructions-input'
-            style={{marginTop: '5px'}}
+            style={{ marginTop: '5px' }}
           >
             Instructions
           </label>
@@ -108,7 +133,7 @@ function Form (props) {
             cols='50'
             autoComplete='off'
             value={oneRecipe.instructions}
-            onChange={handleChange}/>
+            onChange={handleChange} />
           {inputs}
           <button
             type="button"
@@ -132,7 +157,7 @@ function Form (props) {
           <button
             type="submit"
             className="buttons"
-            style={{alignSelf: 'flex-end', marginRight: 0}}
+            style={{ alignSelf: 'flex-end', marginRight: 0 }}
           >
             SAVE
           </button>
@@ -142,82 +167,82 @@ function Form (props) {
     </>
   )
 }
-function List (props){
+function List(props) {
   console.log(props.recipes?.length); // props.recipe.length = 7
-  const data = props.recipes?.map( recipe => (
-    <Recipe key={recipe._id} {...recipe} onDelete1={props.onDelete1} onEdit={props.onEdit} alertwId={props.alertwId} alertOne={props.alertOne}/>
+  const data = props.recipes?.map(recipe => (
+    <Recipe key={recipe.id || recipe._id} {...recipe} onDelete1={props.onDelete1} onEdit={props.onEdit} alertwId={props.alertwId} alertOne={props.alertOne} />
   ));
-  return(
+  return (
     <div className='recipe-list'>
-       {data}
+      {data}
     </div>
   )
 }
 function Recipe(props) {
-    // const {title, img, instructions,  _id, onDelete} = props;
-    const ingredients = props.ingredients.map((ingr) => (
-      <li key={ingr}>{ingr}</li>
-    ));
-    const recipeFooter = (flag) => {
-      if (!flag){
-        return (
-          <>
-           <button type="button" onClick={() => props.onDelete1(props._id)}>DELETE</button>
+  // const {title, img, instructions,  _id, onDelete} = props;
+  const ingredients = props.ingredients.map((ingr) => (
+    <li key={ingr}>{ingr}</li>
+  ));
+  const recipeFooter = (flag) => {
+    if (!flag) {
+      return (
+        <>
+          <button type="button" onClick={() => props.onDelete1(props._id)}>DELETE</button>
           {/* <button type="button" onClick={() => alert(props._id)}>ALERT</button> */}
           <button type="button" onClick={() => props.alertwId(props._id)}>ALERT WITH ID</button>
-          </>
-        ) 
-      } else {
-        return (
-          <>
+        </>
+      )
+    } else {
+      return (
+        <>
           <button type="button" onClick={() => props.onEdit(props._id)}>EDIT RECIPE</button>
           <button type="button" onClick={() => props.onEdit(props._id)}>CANCEL</button>
-          </>
-        ) 
-        }
-  
+        </>
+      )
     }
-    return (
-      <div className="recipe-card" >
-        <div className="recipe-card-img">
-          <img src={props.img} alt={props.title} onClick={() => props.alertOne(props._id)} />
-        </div>
-        <div className="recipe-card-content">
-          <h3 className="recipe-title">{props.title}</h3>
-          <h4>Ingredients:</h4>
-          <ul>
-            {ingredients}
-          </ul>
-          <h4>Instructions:</h4>
-          <p>{props.instructions}</p> 
 
-          {recipeFooter(props.oneRecipeEdit)}
-        
-        </div>
+  }
+  return (
+    <div className="recipe-card" >
+      <div className="recipe-card-img">
+        <img src={props.img} alt={props.title} onClick={() => props.alertOne(props._id)} />
       </div>
-    );
+      <div className="recipe-card-content">
+        <h3 className="recipe-title">{props.title}</h3>
+        <h4>Ingredients:</h4>
+        <ul>
+          {ingredients}
+        </ul>
+        <h4>Instructions:</h4>
+        <p>{props.instructions}</p>
+
+        {recipeFooter(props.oneRecipeEdit)}
+
+      </div>
+    </div>
+  );
 
 }
 
 function App() {
-  const [recipes, setRecipes] = useState([])
-  const [oneRecipeEdit, setOneRecipeEdit ] = useState(true);
+  const [recipes, setRecipes] = useState(recipeThree)
+  const [oneRecipeEdit, setOneRecipeEdit] = useState(false);
 
   const loadRecipes = async () => {
     // const data = await apiCalls.getAllRecipes();
     const data = await apiCalls.getAllData();
     // console.log(data); // [{},{},{},{}] from mongoDb
-    setRecipes( data );
+    setRecipes(data);
   }
 
-  const handleSaveX  = item => (alert());
+  const handleSaveX = item => (alert());
 
-  const handleSave = async (recipe) =>  {
+  const handleSave = async (recipe) => {
     console.log('App, handleSave : ', recipe);
     try {
       const newRecipe = await apiCalls.createRecipe(recipe);
       setRecipes([...recipes, newRecipe]);
-    } catch(error){
+    } catch (error) {
       console.log(error)
     }
   }
@@ -236,18 +261,18 @@ function App() {
     setRecipes(filteredRecipes)
   }
   const onEdit = async id => {
-    const toEdit = recipes.filter( item => item._id === id);
+    const toEdit = recipes.filter(item => item._id === id);
     // const data = await apiCalls.onEdit(id);
     console.log(toEdit)
     // console.log(data);
     return toEdit[0]
   }
 
-  useEffect ( () => {
+  useEffect(() => {
     loadRecipes();
     // console.log(recipes);// []
   }, []);
-  
+
   // useEffect(() => {
   //   apiCalls.getAllRecipes().then(response => setRecipes(response));
   // }, []);
@@ -260,14 +285,14 @@ function App() {
     <>
       <div className="App">
         <h1>My Recipes List</h1>
-        <Form  onSave={handleSave}/>
-       
-        {oneRecipeEdit? <Form onEdit={onEdit} />: 'list or recipes'}
+        <Form onSave={handleSave} />
+
+        {oneRecipeEdit ? <Form onEdit={onEdit} /> : 'list or recipes'}
         <List recipes={recipes} onDelete1={onDelete1} alertwId={alertWithId} alertOne={alertOne} onEdit={onEdit} />
         {oneRecipeEdit}
       </div>
     </>
   )
 }
- 
+
 export default App;
