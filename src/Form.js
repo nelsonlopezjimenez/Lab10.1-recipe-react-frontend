@@ -48,7 +48,7 @@ function Form(props) {
 
   const handleAlert = (event) => {
     console.log(oneRecipe)
-    // alert(event.target.title)
+    alert(event.target)
   }
   const onSave = (event) => {
     event.preventDefault();
@@ -64,6 +64,7 @@ function Form(props) {
   return (
     <>
       <div className="recipe-form-container">
+      <button onClick={e => handleAlert(e)}>ALERT</button>
         <form className='recipe-form' onSubmit={onSave} >
           {/* <form className='recipe-form' onClick={(e)=> handleAlert(e)}> */}
           {/* <form className='recipe-form' onSubmit={() => alert()}> */}
@@ -129,8 +130,8 @@ function Form(props) {
           >
             SAVE
           </button>
-          <button onClick={e => handleAlert(e)}>ALERT</button>
         </form>
+
       </div>
     </>
   )

@@ -12,9 +12,13 @@ function App() {
 
   const loadRecipes = async () => {
     // const data = await apiCalls.getAllRecipes();
-    const data = await apiCalls.getAllData();
-    // console.log(data); // [{},{},{},{}] from mongoDb
-    setRecipes(data);
+    try{
+      const data = await apiCalls.getAllData();
+      // console.log(data); // [{},{},{},{}] from mongoDb
+      setRecipes(data);
+    } catch (error){
+      console.log(error)
+    }
   }
 
   const handleSaveX = item => (alert());
