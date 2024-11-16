@@ -1,5 +1,5 @@
 // App.js
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useLayoutEffect } from 'react';
 import * as apiCalls from './api.js';
 import Form from './Form';
 import List from './List'
@@ -8,15 +8,16 @@ import './App.css';
 
 function App() {
   const [recipes, setRecipes] = useState([])
+  const [formDisplay, setFormDisplay] = useState(true);
   const [oneRecipeEdit, setOneRecipeEdit] = useState(false);
 
   const loadRecipes = async () => {
     // const data = await apiCalls.getAllRecipes();
-    try{
+    try {
       const data = await apiCalls.getAllData();
       // console.log(data); // [{},{},{},{}] from mongoDb
       setRecipes(data);
-    } catch (error){
+    } catch (error) {
       console.log(error)
     }
   }
@@ -66,12 +67,29 @@ function App() {
   // useEffect(() => {
   //   getAllRecipes().then(response => setRecipes(response));
   // }, []);
+  function toggleForm (e){
+    setFormDisplay(!formDisplay);
+  }
+  function showForm (){
+    setFormDisplay(true)
+  }
+  function hideForm(){
+    setFormDisplay(false);
+  }
 
   return (
     <>
       <div className="App">
+
+        <NavBar toggleForm={toggleForm} showForm={showForm} hideForm={hideForm} />
+
+        {formDisplay ?  <Form onSave={handleSave} /> : null}
+
+
+
         <h1>My Recipes List</h1>
-        <Form onSave={handleSave} />
+
+
 
         {oneRecipeEdit ? <Form onEdit={onEdit} /> : 'list or recipes'}
         <List recipes={recipes} onDelete1={onDelete1} alertwId={alertWithId} alertOne={alertOne} onEdit={onEdit} />
@@ -80,5 +98,41 @@ function App() {
     </>
   )
 }
+function NavBar(props) {
+  const localVariable = "Local Variable"
+  const barJSX =
+    <>
+      <li className="border-4-blue rounded hover:bg-blue-600 bg-blue-200" key="click1" onClick={e => alert(e)}>event</li>
+      <li className="border-4-blue rounded hover:bg-blue-600 bg-blue-200" key="click2" onClick={e => alert(e.target)}>even.target </li>
+      <li className="border-4-blue rounded hover:bg-blue-600 bg-blue-200" key="click3" onClick={e => alert(localVariable)}>{localVariable} </li>
+      <li className="border-4-blue rounded hover:bg-blue-600 bg-blue-200" key="click4" onClick={showInConsole}>Show console</li>
+      <li className="border-4-blue rounded hover:bg-blue-600 bg-blue-200" key="click5" onClick={toggleForm}>Toggle Form</li>
+      <li className="border-4-blue rounded hover:bg-blue-600 bg-blue-200" key="click6" onClick={()=>showForm(props.formDisplay)}>Show Form</li>
+      <li className="border-4-blue rounded hover:bg-blue-600 bg-blue-200" key="click7" onClick={()=>hideForm(props.formDisplay)}>Hide Form</li>
 
+    </>
+
+  function showForm (isShown){
+    if (!isShown) return props.showForm()
+  }
+  function hideForm (isHidden){
+    if (!isHidden) return props.hideForm()
+  }
+  function showInConsole(e){
+    console.log(`e : ${e}`)
+    console.log(e)
+    console.log(`e.target : ${e.target}`)
+    console.log(`e.target.value : ${e.target.value}`)
+  }
+  function toggleForm(){
+    props.toggleForm()
+  }
+
+  const resultJSX = props.formDisplay ? <button>{props.title}</button> : <button>{props.title}</button>
+  return (
+    <ul className='flex flex-row justify-between px-6 py-2 rounded text-lg bg-teal-400 text-white'>
+      {barJSX}
+    </ul>
+  )
+}
 export default App;

@@ -48,7 +48,7 @@ function Form(props) {
 
   const handleAlert = (event) => {
     console.log(oneRecipe)
-    alert(event.target)
+    // alert(event.target)
   }
   const onSave = (event) => {
     event.preventDefault();
