@@ -10,6 +10,7 @@ function App() {
   const [recipes, setRecipes] = useState([])
   const [formDisplay, setFormDisplay] = useState(true);
   const [oneRecipeEdit, setOneRecipeEdit] = useState(false);
+  const [toggleRecipe, setToggleRecipe] = useState(false)
 
   const loadRecipes = async () => {
     // const data = await apiCalls.getAllRecipes();
@@ -77,19 +78,24 @@ function App() {
     setFormDisplay(false);
   }
 
+  const remoteVariable = () => {
+    // To be used also to toggleOneRecipe
+    return alert("This is from App component");
+  }
+
   return (
     <>
       <div className="App">
 
-        <NavBar toggleForm={toggleForm} showForm={showForm} hideForm={hideForm} />
+        <NavBar toggleForm={toggleForm} showForm={showForm} hideForm={hideForm} remoteVariable={remoteVariable}/>
 
-        <h1 className='text-center text-[1.5rem] font-bold'>My Recipes List</h1>
+        <h1 className='text-center text-[1.5rem] font-bold md:text-[2rem]'>My Recipes List</h1>
 
         {formDisplay ?  <Form onSave={handleSave} /> : null}
 
 
 
-        {oneRecipeEdit ? <Form onEdit={onEdit} /> : 'list or recipes'}
+        {oneRecipeEdit ? <Form onEdit={onEdit} /> : null}
         <List recipes={recipes} onDelete1={onDelete1} alertwId={alertWithId} alertOne={alertOne} onEdit={onEdit} />
         {oneRecipeEdit}
       </div>
@@ -97,12 +103,13 @@ function App() {
   )
 }
 function NavBar(props) {
-  const localVariable = "Local Variable"
+  const localVariable = "Local Variable in NavBar component"
   const barJSX =
     <>
       <li className="border-4-blue rounded hover:bg-blue-600 bg-blue-200" key="click1" onClick={e => alert(e)}>event</li>
       <li className="border-4-blue rounded hover:bg-blue-600 bg-blue-200" key="click2" onClick={e => alert(e.target)}>even.target </li>
-      <li className="border-4-blue rounded hover:bg-blue-600 bg-blue-200" key="click3" onClick={e => alert(localVariable)}>{localVariable} </li>
+      <li className="border-4-blue rounded hover:bg-blue-600 bg-blue-200" key="click3" onClick={e => alert(localVariable)}>localVariable </li>
+      <li className="border-4-blue rounded hover:bg-blue-600 bg-blue-200" key="click33" onClick={props.remoteVariable}>props.remoteVariable </li>
       <li className="border-4-blue rounded hover:bg-blue-600 bg-blue-200" key="click4" onClick={showInConsole}>Show console</li>
       <li className="border-4-blue rounded hover:bg-blue-600 bg-blue-200" key="click5" onClick={toggleForm}>Toggle Form</li>
       <li className="border-4-blue rounded hover:bg-blue-600 bg-blue-200" key="click6" onClick={()=>showForm(props.formDisplay)}>Show Form</li>
