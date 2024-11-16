@@ -95,7 +95,6 @@ function App() {
 
 
 
-        {oneRecipeEdit ? <Form onEdit={onEdit} /> : null}
 
         <List recipes={recipes} onDelete1={onDelete1} alertwId={alertWithId} alertOne={alertOne} onEdit={onEdit} />
 

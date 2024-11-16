@@ -19,7 +19,7 @@ function Recipe(props) {
     } else {
       return (
         <>
-          <button  className='w-1/3 buttons text-white bg-gray-600 p-l-0 px-4 py-0 mx-4  rounded border-6 border-white text-sm'type="button" onClick={() => props.onEdit(props._id)}>EDIT RECIPE</button>
+          <button className='w-1/3 buttons text-white bg-gray-600 p-l-0 px-4 py-0 mx-4  rounded border-6 border-white text-sm' type="button" onClick={() => props.onEdit(props._id)}>EDIT RECIPE</button>
           <button className='w-1/3 buttons text-white bg-gray-600 p-l-0 px-4 py-0 mx-4  rounded border-6 border-white text-sm' type="button" onClick={() => props.onEdit(props._id)}>CANCEL</button>
         </>
       )
@@ -27,7 +27,7 @@ function Recipe(props) {
 
   }
   return (
-    <div className="recipe-card" >
+    <div className="recipe-card max-w-sm" >
       <div className="recipe-card-img">
         <img src={props.img} alt={props.title} onClick={() => props.alertOne(props._id)} />
       </div>
@@ -37,7 +37,7 @@ function Recipe(props) {
         <ul>
           {ingredients}
         </ul>
-        <h4  className="recipe-title text-lg font-bold text-center ">Instructions:</h4>
+        <h4 className="recipe-title text-lg font-bold text-center ">Instructions:</h4>
         <p>{props.instructions}</p>
         <div className='flex '>
           {recipeFooter(props.oneRecipeEdit)}

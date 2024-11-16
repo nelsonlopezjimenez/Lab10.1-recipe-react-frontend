@@ -1,5 +1,12 @@
 # Log
 
+## 11.16.2024
+1. Working mobile-first
+By default, Tailwind uses a mobile-first breakpoint system, similar to what you might be used to in other frameworks like Bootstrap.
+1. What this means is that unprefixed utilities (like uppercase) take effect on all screen sizes, while prefixed utilities (like md:uppercase) only take effect at the specified breakpoint and above.
+1. For this reason, it’s often a good idea to implement the mobile layout for a design first, then layer on any changes that make sense for sm screens, followed by md screens, etc.
+1. About forms styling and flex syntax https://flowbite.com/docs/forms/input-field/
+
 ## 11.2.2024 mdy
 1. Start  cleaning. Get rid of vite files and refactor class components into function components
 1. npm update before running npm install
