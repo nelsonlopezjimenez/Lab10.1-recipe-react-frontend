@@ -9,7 +9,7 @@ import List from './List'
 function App() {
   const [recipes, setRecipes] = useState([])
   const [formDisplay, setFormDisplay] = useState(true);
-  const [oneRecipeEdit, setOneRecipeEdit] = useState(true);
+  const [oneRecipeEdit, setOneRecipeEdit] = useState(false);
   const [toggleRecipe, setToggleRecipe] = useState(false)
 
   const loadRecipes = async () => {
@@ -96,9 +96,10 @@ function App() {
 
 
         {oneRecipeEdit ? <Form onEdit={onEdit} /> : null}
+
         <List recipes={recipes} onDelete1={onDelete1} alertwId={alertWithId} alertOne={alertOne} onEdit={onEdit} />
 
-        {oneRecipeEdit}
+     
         
       </div>
     </>
