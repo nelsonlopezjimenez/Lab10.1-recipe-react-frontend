@@ -3,7 +3,7 @@ import { useState, useEffect, useLayoutEffect } from 'react';
 import * as apiCalls from './api.js';
 import Form from './Form';
 import List from './List'
-import './App.css';
+// import './App.css';
 
 
 function App() {
@@ -83,11 +83,9 @@ function App() {
 
         <NavBar toggleForm={toggleForm} showForm={showForm} hideForm={hideForm} />
 
+        <h1 className='text-center text-[1.5rem] font-bold'>My Recipes List</h1>
+
         {formDisplay ?  <Form onSave={handleSave} /> : null}
-
-
-
-        <h1>My Recipes List</h1>
 
 
 
@@ -130,7 +128,7 @@ function NavBar(props) {
 
   const resultJSX = props.formDisplay ? <button>{props.title}</button> : <button>{props.title}</button>
   return (
-    <ul className='flex flex-row justify-between px-6 py-2 rounded text-lg bg-teal-400 text-white'>
+    <ul className='flex flex-col justify-between px-6 py-2 rounded text-lg bg-teal-400 text-white sm:flex-row'>
       {barJSX}
     </ul>
   )

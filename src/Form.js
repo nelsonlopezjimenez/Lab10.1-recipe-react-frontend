@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import './Form.css'
+// import './Form.css'
 
 function Form(props) {
   const [oneRecipe, setOneRecipe] = useState({
@@ -33,7 +33,7 @@ function Form(props) {
           type="text"
           name={`ingredient-${i}`}
           value={ing}
-          size={45}
+          size={40}
           autoComplete="off"
           placeholder=" Ingredient"
           onChange={handleChangeIng} />
@@ -63,18 +63,22 @@ function Form(props) {
   }
   return (
     <>
-      <div className="recipe-form-container">
-      <button onClick={e => handleAlert(e)}>ALERT</button>
-        <form className='recipe-form' onSubmit={onSave} >
-          {/* <form className='recipe-form' onClick={(e)=> handleAlert(e)}> */}
-          {/* <form className='recipe-form' onSubmit={() => alert()}> */}
-          <button
+      <div className="recipe-form-container flex flex-col sm:w-1/2 sm:mx-60">
+        <ul className='flex justify-between'>
+          <li className='  text-white bg-gray-600 p-l-0 px-4 py-2 mx-4  rounded' style={{ alignSelf: 'flex-start', marginRight: 18, marginBottom: 18 }} onClick={e => handleAlert(e)}>ALERT
+          </li>
+          <li
             type="button"
-            className="close-button"
+            className="close-button  text-white bg-gray-600 p-l-0 px-4 py-2 mx-4  rounded"
+            style={{ alignSelf: 'flex-end', marginRight: 18, marginBottom: 18}}
           // onClick={onClose}
           >
             X
-          </button>
+          </li>
+        </ul>
+        <form className='recipe-form border-8 border-gray-600 rounded flex flex-col flex-start px-6 m-0' onSubmit={onSave} >
+          {/* <form className='recipe-form' onClick={(e)=> handleAlert(e)}> */}
+          {/* <form className='recipe-form' onSubmit={() => alert()}> */}
           <div className='recipe-form-line'>
             <label htmlFor='recipe-title-input'>Title</label>
             <input
@@ -83,7 +87,7 @@ function Form(props) {
               name='title'
               type='text'
               value={oneRecipe.title}
-              size={42}
+              size={40}
               autoComplete="off"
               onChange={handleChange} />
           </div>
@@ -107,7 +111,7 @@ function Form(props) {
           <button
             type="button"
             onClick={handleNewIngredient}
-            className="buttons"
+            className="buttons  text-white bg-gray-600 p-l-0 px-4 py-2 mx-4  rounded" style={{ alignSelf: 'flex-end', marginRight: 18, marginBottom: 18 }}
           >
             +
           </button>
@@ -124,9 +128,9 @@ function Form(props) {
               onChange={handleChange} />
           </div>
           <button
+            className="buttons text-white bg-gray-600 p-l-0 px-4 py-2 mx-4 rounded border-6 border-white"
             type="submit"
-            className="buttons"
-            style={{ alignSelf: 'flex-end', marginRight: 0 }}
+            style={{ alignSelf: 'flex-end', marginRight: 18, marginBottom: 18 }}
           >
             SAVE
           </button>
