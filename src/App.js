@@ -1,28 +1,29 @@
 // App.js
-import { useState, useEffect, useLayoutEffect } from 'react';
+import { useState, useEffect } from 'react';
 import * as apiCalls from './api.js';
 import Form from './Form';
-import List from './List'
-// import './App.css';
-
+import List from './List';
+import FormEdit from './FormEdit.js';
 
 function App() {
   const [recipes, setRecipes] = useState([])
   const [formDisplay, setFormDisplay] = useState(true);
   const [oneRecipeEdit, setOneRecipeEdit] = useState(false);
+  const [oneRecipe, setOneRecipe] = useState({
+    title: '',
+    instructions: '',
+    ingredients: [''],
+    img: ''
+  })
 
   const loadRecipes = async () => {
-    // const data = await apiCalls.getAllRecipes();
     try {
       const data = await apiCalls.getAllData();
-      // console.log(data); // [{},{},{},{}] from mongoDb
       setRecipes(data);
     } catch (error) {
       console.log(error)
     }
   }
-
-  const handleSaveX = item => (alert());
 
   const handleSave = async (recipe) => {
     console.log('App, handleSave : ', recipe);
@@ -34,13 +35,25 @@ function App() {
     }
   }
 
+  const onUpdate = async (recipe) => {
+    console.log(`recipe editing: `, recipe);
+    try {
+      const newRecipe = await apiCalls.putOneRecipe(recipe);
+      setRecipes([...recipes]);
+    } catch (error) {
+      console.log(error)
+    }
+    
+  }
+
   const onDelete1 = async (id) => {
     await apiCalls.removeRecipe(id);
     const filteredRecipes = recipes.filter((recipe) => recipe._id !== id);
     setRecipes(filteredRecipes);
   }
   const alertWithId = async (id) => {
-    alert(id);
+    // alert(id);
+    console.log(`Recipe id : ${id}`)
   }
   const alertOne = async (id) => {
     const filteredRecipes = recipes.filter((recipe) => recipe._id === id);
@@ -51,8 +64,10 @@ function App() {
     const toEdit = recipes.filter(item => item._id === id);
     // const data = await apiCalls.onEdit(id);
     console.log(toEdit)
-    // console.log(data);
-    return toEdit[0]
+    setOneRecipeEdit(true);
+    setOneRecipe(toEdit[0]);
+    setRecipes(toEdit)
+
   }
 
   useEffect(() => {
@@ -67,13 +82,13 @@ function App() {
   // useEffect(() => {
   //   getAllRecipes().then(response => setRecipes(response));
   // }, []);
-  function toggleForm (e){
+  function toggleForm(e) {
     setFormDisplay(!formDisplay);
   }
-  function showForm (){
+  function showForm() {
     setFormDisplay(true)
   }
-  function hideForm(){
+  function hideForm() {
     setFormDisplay(false);
   }
 
@@ -85,12 +100,11 @@ function App() {
 
         <h1 className='text-center text-[1.5rem] font-bold'>My Recipes List</h1>
 
-        {formDisplay ?  <Form onSave={handleSave} /> : null}
+        {formDisplay ? <Form onSave={handleSave} /> : null}
 
+        {oneRecipeEdit ? <FormEdit oneRecipe={oneRecipe} onSave={onUpdate} flag={true} recipes={recipes}/>: <FormEdit oneRecipe={oneRecipe} onSave={onUpdate} flag={false} recipes={recipes}/>}
 
-
-        {oneRecipeEdit ? <Form onEdit={onEdit} /> : 'list or recipes'}
-        <List recipes={recipes} onDelete1={onDelete1} alertwId={alertWithId} alertOne={alertOne} onEdit={onEdit} />
+        <List recipes={recipes} onDelete1={onDelete1} alertwId={alertWithId} alertOne={alertOne} onEdit={onEdit} oneRecipeEdit={onemptied} />
         {oneRecipeEdit}
       </div>
     </>
@@ -100,29 +114,29 @@ function NavBar(props) {
   const localVariable = "Local Variable"
   const barJSX =
     <>
-      <li className="border-4-blue rounded hover:bg-blue-600 bg-blue-200" key="click1" onClick={e => alert(e)}>event</li>
-      <li className="border-4-blue rounded hover:bg-blue-600 bg-blue-200" key="click2" onClick={e => alert(e.target)}>even.target </li>
-      <li className="border-4-blue rounded hover:bg-blue-600 bg-blue-200" key="click3" onClick={e => alert(localVariable)}>{localVariable} </li>
-      <li className="border-4-blue rounded hover:bg-blue-600 bg-blue-200" key="click4" onClick={showInConsole}>Show console</li>
-      <li className="border-4-blue rounded hover:bg-blue-600 bg-blue-200" key="click5" onClick={toggleForm}>Toggle Form</li>
-      <li className="border-4-blue rounded hover:bg-blue-600 bg-blue-200" key="click6" onClick={()=>showForm(props.formDisplay)}>Show Form</li>
-      <li className="border-4-blue rounded hover:bg-blue-600 bg-blue-200" key="click7" onClick={()=>hideForm(props.formDisplay)}>Hide Form</li>
+      <li className="border-4-blue rounded hover:bg-blue-600 bg-blue-400" key="click1" onClick={e => alert(e)}>event</li>
+      <li className="border-4-blue rounded hover:bg-blue-600 bg-blue-400" key="click2" onClick={e => alert(e.target)}>even.target </li>
+      <li className="border-4-blue rounded hover:bg-blue-600 bg-blue-400" key="click3" onClick={e => alert(localVariable)}>{localVariable} </li>
+      <li className="border-4-blue rounded hover:bg-blue-600 bg-blue-400" key="click4" onClick={showInConsole}>Show console</li>
+      <li className="border-4-blue rounded hover:bg-blue-600 bg-blue-400" key="click5" onClick={toggleForm}>Toggle Form</li>
+      <li className="border-4-blue rounded hover:bg-blue-600 bg-blue-400" key="click6" onClick={() => showForm(props.formDisplay)}>Show Form</li>
+      <li className="border-4-blue rounded hover:bg-blue-600 bg-blue-400" key="click7" onClick={() => hideForm(props.formDisplay)}>Hide Form</li>
 
     </>
 
-  function showForm (isShown){
+  function showForm(isShown) {
     if (!isShown) return props.showForm()
   }
-  function hideForm (isHidden){
+  function hideForm(isHidden) {
     if (!isHidden) return props.hideForm()
   }
-  function showInConsole(e){
+  function showInConsole(e) {
     console.log(`e : ${e}`)
     console.log(e)
     console.log(`e.target : ${e.target}`)
     console.log(`e.target.value : ${e.target.value}`)
   }
-  function toggleForm(){
+  function toggleForm() {
     props.toggleForm()
   }
 
