@@ -161,7 +161,7 @@ function FormEdit(props) {
 
               onClick={event => onUpdate(event)}
             >
-              Edit
+              Save
             </button>
           </div>
         </form>

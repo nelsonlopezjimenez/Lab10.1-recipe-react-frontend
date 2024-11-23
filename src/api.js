@@ -90,6 +90,23 @@ export const putOneRecipe = ( async (recipe) => {
     console.log(error)
   }
 })
+export const patchOneRecipe = ( async (recipe) => {
+  console.log(`Api frontend: `, recipe)
+  console.log(`Api frontend: `, JSON.stringify(recipe))
+  try {
+    let data = await fetch(APIURL + recipe._id, { method: 'PATCH', 
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify(recipe)
+      // body: JSON.stringify({instructions:recipe.instructions})
+  
+  })
+    let result = await data.json();
+    console.log(result)
+    return result;
+  } catch (error){
+    console.log(error)
+  }
+})
 
 export const getOneRecipe = ( async (id) => {
   try {
