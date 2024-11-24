@@ -78,6 +78,11 @@ function FormEdit(props) {
   const onUpdate = (event) => {
     event.preventDefault();
     console.log(oneRecipe);
+
+    // THIS LINE IS NOT PASSING AN ARRAY
+    // props.onSave({...oneRecipe })
+
+    // PUT OR PATCH DOES NOT MAKE DIFFERENCE EVEN THOUGH PUT VS PATCH IS NEW VS PARTIAL
     props.onSave({ ...props.oneRecipe, ...oneRecipe  })
 
     // setOneRecipe({
