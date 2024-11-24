@@ -4,6 +4,7 @@ import * as apiCalls from './api.js';
 import Form from './Form';
 import List from './List';
 import FormEdit from './FormEdit.js';
+import EditForm from './EditForm.js';
 
 function App() {
   const [recipes, setRecipes] = useState([])
@@ -102,7 +103,9 @@ function App() {
 
         {formDisplay ? <Form onSave={handleSave} /> : null}
 
-        {oneRecipeEdit ? <FormEdit oneRecipe={oneRecipe} onSave={onUpdate} flag={true} recipes={recipes}/>: <FormEdit oneRecipe={oneRecipe} onSave={onUpdate} flag={false} recipes={recipes}/>}
+        {/* {oneRecipeEdit ? <FormEdit oneRecipe={oneRecipe} onSave={onUpdate} flag={true} recipes={recipes}/>: <FormEdit oneRecipe={oneRecipe} onSave={onUpdate} flag={false} recipes={recipes}/>} */}
+
+        {oneRecipeEdit ? <EditForm oneRecipe={oneRecipe} onSave={onUpdate} flag={true} recipes={recipes}/>: <EditForm oneRecipe={oneRecipe} onSave={onUpdate} flag={false} recipes={recipes}/>}
 
         <List recipes={recipes} onDelete1={onDelete1} alertwId={alertWithId} alertOne={alertOne} onEdit={onEdit} oneRecipeEdit={onemptied} />
         {oneRecipeEdit}
