@@ -9,6 +9,7 @@ function App() {
   const [recipes, setRecipes] = useState([])
   const [formDisplay, setFormDisplay] = useState(false);
   const [oneRecipeEdit, setOneRecipeEdit] = useState(false);
+  const [toggleOne, setToggleOne ] = useState(false);
   const [oneRecipe, setOneRecipe] = useState({
     title: '',
     instructions: '',
@@ -47,8 +48,12 @@ function App() {
   }
   const alertOne = async (id) => {
     const filteredRecipes = recipes.filter((recipe) => recipe._id === id);
+    setToggleOne(!toggleOne);
     console.log(filteredRecipes)
-    setRecipes(filteredRecipes)
+    setRecipes(filteredRecipes);
+    if (toggleOne) {
+      loadRecipes();
+    }
   }
   const onEdit = async id => {
     const toEdit = recipes.filter(item => item._id === id);
@@ -95,7 +100,7 @@ function App() {
 
         <NavBar toggleForm={toggleForm} showForm={showForm} hideForm={hideForm} />
 
-        <h1 className='text-center text-[1.5rem] font-bold'>My Recipes List</h1>
+        <h1 className='text-center text-[2rem] font-bold'>My Recipes List</h1>
 
         {formDisplay ? <Form onSave={handleSave} /> : null}
 

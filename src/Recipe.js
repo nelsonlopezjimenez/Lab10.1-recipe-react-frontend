@@ -4,7 +4,7 @@ import './Recipe.css';
 function Recipe(props) {
   // const {title, img, instructions,  _id, onDelete} = props;
   const ingredients = props.ingredients.map((ingr) => (
-    <li key={ingr}>{ingr}</li>
+    <li className='text-lg pl-0' key={ingr}>{ingr}</li>
   ));
 
   const recipeFooter = () => {
@@ -28,18 +28,18 @@ function Recipe(props) {
 
   }
   return (
-    <div className="recipe-card" >
-      <div className="recipe-card-img">
+    <div className="recipe-card max-w-sm" >
+      <div className="recipe-card-img border-4 border-gray-200 shadow">
         <img src={props.img} alt={props.title} onClick={() => props.alertOne(props._id)} />
       </div>
       <div className="recipe-card-content">
-        <h3 className="recipe-title">{props.title}</h3>
-        <h4>Ingredients:</h4>
-        <ul>
+        <h3 className="recipe-title text-lg font-bold text-center uppercase" >{props.title}</h3>
+        <h4 className='textl-lg font-bold text-center'>Ingredients:</h4>
+        <ul className='pl-0'>
           {ingredients}
         </ul>
-        <h4>Instructions:</h4>
-        <p>{props.instructions}</p>
+        <h4 className='text-lg font-bold text-center'>Instructions:</h4>
+        <p className='text-lg p-2 pb-4' >{props.instructions}</p>
 
         {recipeFooter(props.oneRecipeEdit)}
 
