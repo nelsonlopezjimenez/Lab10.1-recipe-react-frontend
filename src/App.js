@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 import * as apiCalls from './api.js';
 import Form from './Form';
 import List from './List';
-import FormEdit from './FormEdit.js';
 import EditForm from './EditForm.js';
 
 function App() {
@@ -37,18 +36,7 @@ function App() {
     }
   }
 
-  const onUpdate = async (recipe) => {
-    console.log(`recipe editing: `, recipe);
-    try {
-      const newRecipe = await apiCalls.putOneRecipe(recipe);
-      setRecipes([...recipes]);
-    } catch (error) {
-      console.log(error)
-    }
-    
-  }
-
-  const onDelete1 = async (id) => {
+  const onDelete = async (id) => {
     await apiCalls.removeRecipe(id);
     const filteredRecipes = recipes.filter((recipe) => recipe._id !== id);
     setRecipes(filteredRecipes);
@@ -74,7 +62,6 @@ function App() {
 
   useEffect(() => {
     loadRecipes();
-    // console.log(recipes);// []
   }, []);
 
   // useEffect(() => {
@@ -84,6 +71,7 @@ function App() {
   // useEffect(() => {
   //   getAllRecipes().then(response => setRecipes(response));
   // }, []);
+
   function toggleForm(e) {
     setFormDisplay(!formDisplay);
   }
@@ -94,12 +82,13 @@ function App() {
     setFormDisplay(false);
   }
 
-  function onSubmitPatch () {
+  function onSubmitPatch() {
     setOneRecipeEdit(!oneRecipeEdit);
     hideForm();
     loadRecipes();
     console.log(`onSubmitPatch : `, recipes)
   }
+  
   return (
     <>
       <div className="App">
@@ -110,15 +99,15 @@ function App() {
 
         {formDisplay ? <Form onSave={handleSave} /> : null}
 
-        {/* {oneRecipeEdit ? <FormEdit oneRecipe={oneRecipe} onSave={onUpdate} flag={true} recipes={recipes}/>: <FormEdit oneRecipe={oneRecipe} onSave={onUpdate} flag={false} recipes={recipes}/>} */}
+        {oneRecipeEdit ?
+          <div className='flex flex-row'>
+            <List recipes={recipes} onDelete1={onDelete} alertwId={alertWithId} alertOne={alertOne} onEdit={onEdit} oneRecipeEdit={onemptied} />
+            <EditForm oneRecipe={oneRecipe} flag={true} onSubmit={onSubmitPatch} />
+          </div>
+          :
+          <List recipes={recipes} onDelete1={onDelete} alertwId={alertWithId} alertOne={alertOne} onEdit={onEdit} oneRecipeEdit={onemptied} />
+        }
 
-        {oneRecipeEdit ? <EditForm oneRecipe={oneRecipe} flag={true} onSubmit={onSubmitPatch}/>
-        : 
-        null}
-        {/* <EditForm oneRecipe={oneRecipe} onSave={onUpdate} flag={false} recipes={recipes}/>} */}
-
-        <List recipes={recipes} onDelete1={onDelete1} alertwId={alertWithId} alertOne={alertOne} onEdit={onEdit} oneRecipeEdit={onemptied} />
-        {oneRecipeEdit}
       </div>
     </>
   )
@@ -152,8 +141,6 @@ function NavBar(props) {
   function toggleForm() {
     props.toggleForm()
   }
-
-  const resultJSX = props.formDisplay ? <button>{props.title}</button> : <button>{props.title}</button>
   return (
     <ul className='flex flex-col justify-between px-6 py-2 rounded text-lg bg-teal-400 text-white sm:flex-row'>
       {barJSX}

@@ -6,14 +6,14 @@ import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import * as apiCalls from './api.js';
 
-const APIURL = 'http://localhost:3999/api/v1/recipe/';
+// const APIURL = 'http://localhost:3999/api/v1/recipe/';
 
 function EditForm(props) {
   const { register, handleSubmit, reset } = useForm();
   const [isLoading, setIsLoading] = useState(false);
 
   console.log(props.oneRecipe._id)
-  let tmp = props.oneRecipe._id || '67420b51f16882dc43aa237a' 
+  let tmp = props.oneRecipe._id || '67420b51f16882dc43aa237afakenumber' 
 
   useEffect(() => {
     const fetchData = async () => {
@@ -26,24 +26,34 @@ function EditForm(props) {
     fetchData();
   }, [tmp, reset]);
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data) =>{
     setIsLoading(true);
     try {
-      await fetch(`${APIURL}${tmp}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
-      // Optionally handle success, e.g., redirect or update UI
+        await apiCalls.putOneRecipe(data);
+        setIsLoading(false);
+        props.onSubmit();
     } catch (error) {
-      // Handle error
-    } finally {
-      setIsLoading(false);
-      props.onSubmit();
+        console.log('put error: ', error);
     }
-  };
+  }
+//   const onSubmit1 = async (data) => {
+//     setIsLoading(true);
+//     try {
+//       await fetch(`${APIURL}${tmp}`, {
+//         method: 'PUT',
+//         headers: {
+//           'Content-Type': 'application/json',
+//         },
+//         body: JSON.stringify(data),
+//       });
+//       // Optionally handle success, e.g., redirect or update UI
+//     } catch (error) {
+//       // Handle error
+//     } finally {
+//       setIsLoading(false);
+//       props.onSubmit();
+//     }
+//   };
   let inputs = null;
   return (
     <>
@@ -126,14 +136,5 @@ function EditForm(props) {
     </div>
   </>
   )
-
-//   return (
-//     <form onSubmit={handleSubmit(onSubmit)}>
-//       {isLoading && <div>Loading...</div>}
-//       <input type="text" {...register('name')} />
-//       {/* ... other form fields */}
-//       <button type="submit">Update</button>
-//     </form>
-//   );
 }
 export default EditForm;
