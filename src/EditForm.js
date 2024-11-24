@@ -1,4 +1,7 @@
 // from https://www.google.com/search?q=react+how+to+repopulate+a+form+action+PUT&rlz=1C1RXQR_enUS1136US1136&oq=react+how+to+repopulate+a+form+action+PUT&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIJCAEQIRgKGKABMgkIAhAhGAoYoAEyCQgDECEYChigATIJCAQQIRgKGKABMgkIBRAhGAoYoAEyBwgGECEYqwIyBwgHECEYqwIyBwgIECEYjwLSAQk3MDA0M2owajeoAgCwAgA&sourceid=chrome&ie=UTF-8
+// https://www.freecodecamp.org/news/how-to-create-forms-in-react-using-react-hook-form/
+// https://blog.logrocket.com/react-hook-form-complete-guide/ for nested arrays and more complex forms
+
 import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import * as apiCalls from './api.js';
@@ -16,8 +19,6 @@ function EditForm(props) {
     const fetchData = async () => {
       setIsLoading(true);
       const response = await apiCalls.getOneRecipe(tmp);
-    //   const response = await fetch(`${APIURL}${props.oneRecipe._id}`);
-    //   const data = await response.json();
       reset(response);
       setIsLoading(false);
     };
@@ -40,6 +41,7 @@ function EditForm(props) {
       // Handle error
     } finally {
       setIsLoading(false);
+      props.onSubmit();
     }
   };
   let inputs = null;
@@ -106,7 +108,7 @@ function EditForm(props) {
         <div className='flex flex-row justify-between p-4 '>
           <button
             className="buttons text-white bg-gray-600 p-l-0 px-4 py-2 mx-4 rounded border-6 border-white"
-            type="submit"
+            type="cancel"
 
             onClick={() => console.log('cancel button clicked')}
           >
@@ -114,11 +116,9 @@ function EditForm(props) {
           </button>
           <button
             className="buttons text-white bg-gray-600 p-l-0 px-4 py-2 mx-4 rounded border-6 border-white"
-            type="submit"
-
-            
+            type="submit"            
           >
-            Save
+            Submit
           </button>
         </div>
       </form>

@@ -8,7 +8,7 @@ import EditForm from './EditForm.js';
 
 function App() {
   const [recipes, setRecipes] = useState([])
-  const [formDisplay, setFormDisplay] = useState(true);
+  const [formDisplay, setFormDisplay] = useState(false);
   const [oneRecipeEdit, setOneRecipeEdit] = useState(false);
   const [oneRecipe, setOneRecipe] = useState({
     title: '',
@@ -31,6 +31,7 @@ function App() {
     try {
       const newRecipe = await apiCalls.createRecipe(recipe);
       setRecipes([...recipes, newRecipe]);
+      setFormDisplay(!formDisplay);
     } catch (error) {
       console.log(error)
     }
@@ -93,6 +94,12 @@ function App() {
     setFormDisplay(false);
   }
 
+  function onSubmitPatch () {
+    setOneRecipeEdit(!oneRecipeEdit);
+    hideForm();
+    loadRecipes();
+    console.log(`onSubmitPatch : `, recipes)
+  }
   return (
     <>
       <div className="App">
@@ -105,7 +112,10 @@ function App() {
 
         {/* {oneRecipeEdit ? <FormEdit oneRecipe={oneRecipe} onSave={onUpdate} flag={true} recipes={recipes}/>: <FormEdit oneRecipe={oneRecipe} onSave={onUpdate} flag={false} recipes={recipes}/>} */}
 
-        {oneRecipeEdit ? <EditForm oneRecipe={oneRecipe} onSave={onUpdate} flag={true} recipes={recipes}/>: <EditForm oneRecipe={oneRecipe} onSave={onUpdate} flag={false} recipes={recipes}/>}
+        {oneRecipeEdit ? <EditForm oneRecipe={oneRecipe} flag={true} onSubmit={onSubmitPatch}/>
+        : 
+        null}
+        {/* <EditForm oneRecipe={oneRecipe} onSave={onUpdate} flag={false} recipes={recipes}/>} */}
 
         <List recipes={recipes} onDelete1={onDelete1} alertwId={alertWithId} alertOne={alertOne} onEdit={onEdit} oneRecipeEdit={onemptied} />
         {oneRecipeEdit}
