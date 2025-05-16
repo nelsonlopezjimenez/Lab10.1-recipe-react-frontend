@@ -187,7 +187,8 @@ export const getOneRecipe = ( async (id) => {
   }
 })
 
-
+```
+```js
 //  ============== ================= ================= ===========
 // ============= /src/App.js
 // App.js
@@ -371,6 +372,8 @@ export default App;
 }
 
 //  ============== ================= ================= ===========
+```
+```js
 // ============= /src/Form.js
 import { useState } from 'react';
 import './Form.css'
@@ -571,6 +574,8 @@ export default Form;
 }
 
 //  ============== ================= ================= ===========
+```
+```js
 // ============= /src/List.js
 import React from 'react';
 import Recipe from './Recipe';
@@ -602,6 +607,8 @@ export default List;
 }
 
 //  ============== ================= ================= ===========
+```
+```js
 // ============= /src/Recipe.js
 import React from 'react';
 import './Recipe.css';
@@ -687,6 +694,8 @@ export default Recipe;
   margin: 0;
 }
 //  ============== ================= ================= ===========
+```
+
 // ============= /src/App.js
 //  ============== ================= ================= ===========
 
