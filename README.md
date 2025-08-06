@@ -1,6 +1,9 @@
 # Log of Lab10.1-recipe-react-frontend
 This is the frontend for Lab10.1-recipe-api backend
 
+## Prompt
+Update https://github.com/nelsonlopezjimenez/Lab10.1-recipe-react-frontend  to use vite, flex, tailwindcss. Use the newmain branch as a basis. Make api.js syntax following best practices. The app has a form to accep a recipe as input, renders a list of recipes. It toggles a form when editing an indiviual recipe. It uses hooks. Optimize hooks to follow best practices. Delete redundant or unused code. Follow best practies of useing react, vite, javascript, tailwindcss
+
 ## Version 2
 ✅ What Changed
 
