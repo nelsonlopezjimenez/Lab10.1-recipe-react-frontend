@@ -1,7 +1,21 @@
 # Log of Lab10.1-recipe-react-frontend
 This is the frontend for Lab10.1-recipe-api backend
 
-# Recipe Manager - Modern React App
+## Version 2
+✅ What Changed
+
+Added React imports to all components that use JSX
+Updated main.jsx to import React explicitly
+Configured Vite for automatic JSX runtime (optional)
+
+🚀 Try Running Again
+Now try running your development server:
+bashnpm run dev
+The "React is not defined" error should be resolved. If you encounter any other issues, let me know!
+💡 Pro Tip
+With modern Vite and React 17+, you can use automatic JSX runtime to avoid importing React in every file, but explicit imports are more reliable and clearer for debugging.RetryClaude can make mistakes. Please double-check responses.
+
+## Recipe Manager - Modern React App
 
 A modern, responsive recipe management application built with React, Vite, and Tailwind CSS. This app allows users to create, edit, delete, and view recipes with a clean, intuitive interface.
 
