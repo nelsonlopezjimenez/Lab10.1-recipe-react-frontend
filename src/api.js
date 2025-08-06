@@ -1,86 +1,57 @@
-// const APIURL = '/api/v1/recipes/';
-let APIURL = 'http://10.0.0.104:3999/api/v1/recipe/';
-APIURL = 'http://192.168.0.105:3999/api/v1/recipe/';
-APIURL = 'http://localhost:3999/api/v1/recipe/';
-// const APIURL = '/api/v1/recipe'; // when using a proxy in frontend package.json file
+// API service with modern best practices
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3999/api/v1/recipe';
 
-export async function getAllData() {
+// Generic fetch wrapper with error handling
+const apiRequest = async (url, options = {}) => {
   try {
-    const data = await fetch(APIURL);
-    if (!data.ok) {
-      throw new Error(`Response status: ${data.status}`);
+    const response = await fetch(url, {
+      headers: {
+        'Content-Type': 'application/json',
+        ...options.headers,
+      },
+      ...options,
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
-    const result = await data.json();
-    return result;
+
+    return await response.json();
   } catch (error) {
-    console.error(error.message);
+    console.error('API request failed:', error);
+    throw error;
   }
-}
+};
 
+// Get all recipes
 export const getAllRecipes = async () => {
-  let result = null;
-  // let error = null; //is assigned a value but never used
-  try{
-    let data = await fetch(APIURL);
-    console.log(data.status)
-    result = await data.json();
-    return result;
-  } catch (error){
-    console.log(error);
-  }
-}
+  return apiRequest(API_BASE_URL);
+};
 
-export const createRecipeX = async newItem => {
-  const myHeaders = new Headers();
-  myHeaders.append("Content-Type", "application/json");
+// Get single recipe by ID
+export const getRecipeById = async (id) => {
+  return apiRequest(`${API_BASE_URL}/${id}`);
+};
 
-  const data = await fetch(APIURL, {
-    method: "post",
-    body: JSON.stringify(newItem),
-    headers: myHeaders,
+// Create new recipe
+export const createRecipe = async (recipe) => {
+  return apiRequest(API_BASE_URL, {
+    method: 'POST',
+    body: JSON.stringify(recipe),
   });
-  const result = await data.json()
-  console.log(result)
-}
-export const createRecipe =  ( async (recipe) => {
-  console.log(recipe);
-  console.log(JSON.stringify(recipe));
-  try {
-    let data = await fetch(APIURL, {
-      method: 'post', headers: {"Content-Type":"application/json"},
-      body: JSON.stringify(recipe),
-    })
-    let result = await data.json();
-    return result;
-  } catch (error){
-    console.log(error);
-  }
-})
+};
 
-export const onEdit = async id => {
-  const data = await fetch(APIURL + id);
-  const result = await data.json();
-  return result;
-}
+// Update existing recipe
+export const updateRecipe = async (id, recipe) => {
+  return apiRequest(`${API_BASE_URL}/${id}`, {
+    method: 'PUT',
+    body: JSON.stringify(recipe),
+  });
+};
 
-export const removeRecipe = ( async (id) => {
-  try {
-    let data = await fetch(APIURL + id, { method: 'delete'})
-    let result = await data.json();
-    console.log(result)
-    return result;
-  } catch (error){
-    console.log(error)
-  }
-})
-
-export const getOneRecipe = ( async (id) => {
-  try {
-    let data = await fetch(APIURL + id, { method: 'get'})
-    let result = await data.json();
-    return result;
-  } catch (error){
-    console.log(error)
-  }
-})
-
+// Delete recipe
+export const deleteRecipe = async (id) => {
+  return apiRequest(`${API_BASE_URL}/${id}`, {
+    method: 'DELETE',
+  });
+};
