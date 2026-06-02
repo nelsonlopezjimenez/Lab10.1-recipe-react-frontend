@@ -1,15 +1,15 @@
-import { useState } from 'react';
-import { useRecipes } from './hooks/useRecipes';
-import NavBar from './components/NavBar';
-import RecipeForm from './components/RecipeForm';
-import RecipeList from './components/RecipeList';
-import LoadingSpinner from './components/LoadingSpinner';
-import ErrorMessage from './components/ErrorMessage';
+import { useState } from "react";
+import { useRecipes } from "./hooks/useRecipes";
+import NavBar from "./components/NavBar";
+import RecipeForm from "./components/RecipeForm";
+import RecipeList from "./components/RecipeList";
+import LoadingSpinner from "./components/LoadingSpinner";
+import ErrorMessage from "./components/ErrorMessage";
 
 function App() {
   const [showForm, setShowForm] = useState(false);
   const [editingRecipe, setEditingRecipe] = useState(null);
-  
+
   const {
     recipes,
     loading,
@@ -30,7 +30,7 @@ function App() {
       }
       setShowForm(false);
     } catch (err) {
-      console.error('Error saving recipe:', err);
+      console.error("Error saving recipe:", err);
     }
   };
 
@@ -45,18 +45,18 @@ function App() {
   };
 
   const handleDeleteRecipe = async (id) => {
-    if (window.confirm('Are you sure you want to delete this recipe?')) {
+    if (window.confirm("Are you sure you want to delete this recipe?")) {
       try {
         await removeRecipe(id);
       } catch (err) {
-        console.error('Error deleting recipe:', err);
+        console.error("Error deleting recipe:", err);
       }
     }
   };
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <NavBar 
+      <NavBar
         onToggleForm={() => setShowForm(!showForm)}
         onShowForm={() => setShowForm(true)}
         onHideForm={() => setShowForm(false)}
@@ -86,12 +86,7 @@ function App() {
           {loading && <LoadingSpinner />}
 
           {/* Error State */}
-          {error && (
-            <ErrorMessage 
-              message={error} 
-              onRetry={refreshRecipes}
-            />
-          )}
+          {error && <ErrorMessage message={error} onRetry={refreshRecipes} />}
 
           {/* Recipe List */}
           {!loading && !error && (

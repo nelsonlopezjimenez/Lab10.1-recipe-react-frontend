@@ -13,12 +13,12 @@ const NavBar = ({ onToggleForm, onShowForm, onHideForm, showForm }) => {
             <button
               onClick={onToggleForm}
               className={`px-4 py-2 rounded-lg font-semibold transition-colors ${
-                showForm 
-                  ? 'bg-red-500 hover:bg-red-600' 
-                  : 'bg-primary-700 hover:bg-primary-800'
+                showForm
+                  ? "bg-red-500 hover:bg-red-600"
+                  : "bg-primary-700 hover:bg-primary-800"
               }`}
             >
-              {showForm ? 'Hide Form' : 'Add Recipe'}
+              {showForm ? "Hide Form" : "Add Recipe"}
             </button>
 
             {showForm && (
