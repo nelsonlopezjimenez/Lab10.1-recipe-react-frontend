@@ -1,3 +1,5 @@
+import { getImageUrl } from '../api';
+
 const FALLBACK_IMG =
   "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200'%3E%3Crect width='300' height='200' fill='%23f3f4f6'/%3E%3Ctext x='150' y='95' font-family='system-ui' font-size='13' fill='%239ca3af' text-anchor='middle'%3E%F0%9F%93%B7%3C/text%3E%3Ctext x='150' y='115' font-family='system-ui' font-size='13' fill='%239ca3af' text-anchor='middle'%3ENo Image%3C/text%3E%3C/svg%3E";
 
@@ -14,7 +16,7 @@ const RecipeCard = ({ recipe, onEdit, onDelete }) => {
       {/* Image */}
       <div className="relative h-48 bg-gray-200">
         <img
-          src={img || FALLBACK_IMG}
+          src={getImageUrl(img) || FALLBACK_IMG}
           alt={title}
           onError={handleImageError}
           className="w-full h-full object-cover"
