@@ -1,29 +1,10 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-/* Custom utilities */
-@layer utilities {
-  .line-clamp-1 {
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-  
-  .line-clamp-2 {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-  
-  .line-clamp-3 {
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
+@theme {
+  --color-primary-50: #f0fdfa;
+  --color-primary-500: #14b8a6;
+  --color-primary-600: #0d9488;
+  --color-primary-700: #0f766e;
 }
 
 /* Base styles */
@@ -31,7 +12,7 @@
   html {
     font-family: system-ui, sans-serif;
   }
-  
+
   body {
     @apply bg-gray-50;
   }
@@ -42,15 +23,15 @@
   .btn-primary {
     @apply bg-primary-500 text-white px-4 py-2 rounded-lg font-semibold hover:bg-primary-600 transition-colors;
   }
-  
+
   .btn-secondary {
     @apply bg-gray-200 text-gray-700 px-4 py-2 rounded-lg font-semibold hover:bg-gray-300 transition-colors;
   }
-  
+
   .input-field {
     @apply w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent;
   }
-  
+
   .card {
     @apply bg-white rounded-xl shadow-lg overflow-hidden;
   }
