@@ -69,3 +69,39 @@ The app rendered without any TailwindCSS styles applied. Four root causes were i
 | `tailwind.config.js` | Fixed `content` paths |
 | `index.html` | Removed stale `output.css` link |
 | `package.json` / `package-lock.json` | Added `@tailwindcss/vite` as a dev dependency |
+
+---
+
+## [Fix] CONFIGURATION.MD Outdated Reference — 2026-06-05
+
+### Problem
+
+`CONFIGURATION.MD` was provided as course reference material showing what each config file should contain. Two of its sections described Tailwind v3 patterns that are incompatible with the v4 setup now in place, making it actively misleading.
+
+---
+
+### 5. `CONFIGURATION.MD` — `postcss.config.js` section (v3 only)
+
+**Finding:** The file showed a `postcss.config.js` with `tailwindcss: {}` as a PostCSS plugin and implied it should be created.
+
+**Why it was wrong:** This is Tailwind v3 syntax. In Tailwind v4 the PostCSS plugin was extracted into a separate `@tailwindcss/postcss` package, and for Vite projects the recommended approach is `@tailwindcss/vite` which bypasses PostCSS entirely. Following the reference as written and creating that file would have had no effect (or caused a conflict).
+
+**Solution:** Replaced the code block with a note explaining why `postcss.config.js` is not used and what replaced it.
+
+---
+
+### 6. `CONFIGURATION.MD` — `vite.config.js` section (missing Tailwind plugin)
+
+**Finding:** The `vite.config.js` snippet did not include the `@tailwindcss/vite` import or plugin call.
+
+**Why it was wrong:** Without `tailwindcss()` in the Vite plugins array, Tailwind never processes the CSS — even with `@import "tailwindcss"` in `index.css`. This was the single most impactful missing piece.
+
+**Solution:** Updated the snippet to include `import tailwindcss from '@tailwindcss/vite'` and `tailwindcss()` in the plugins array, matching the actual working `vite.config.js`.
+
+---
+
+### Files Changed
+
+| File | Change |
+|---|---|
+| `CONFIGURATION.MD` | Replaced stale `postcss.config.js` block with a v4 compatibility note; updated `vite.config.js` snippet to include `@tailwindcss/vite` |

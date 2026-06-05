@@ -45,14 +45,10 @@ export default [
 ```
 
 ## postcss.config.js
-```js
-export default {
-  plugins: {
-    tailwindcss: {},
-    autoprefixer: {},
-  },
-}
-```
+
+> **Not used.** This project uses Tailwind CSS v4 with the `@tailwindcss/vite` plugin.
+> The PostCSS approach (`tailwindcss: {}`) is Tailwind v3 syntax and is incompatible with v4.
+> Vite handles CSS processing automatically — no `postcss.config.js` is needed.
 
 ## tailwind.config.js
 ```js
@@ -78,14 +74,19 @@ export default {
 }
 ```
 ## vite.config.js
+
+> **Updated for Tailwind v4.** The `@tailwindcss/vite` plugin must be imported and added to `plugins`.
+
 ```js
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
-  plugins: [react({
-    jsxRuntime: 'automatic'
-  })],
+  plugins: [
+    react(),
+    tailwindcss()
+  ],
   server: {
     port: 3000,
     open: true
