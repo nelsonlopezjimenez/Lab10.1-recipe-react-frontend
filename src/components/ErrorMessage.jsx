@@ -1,3 +1,17 @@
+/**
+ * The third "render state" alongside `RecipeList` (success) and
+ * `LoadingSpinner` (pending) — together they cover the three things that can
+ * be true about an async request at any moment: it's loading, it failed, or
+ * it succeeded. `App` picks exactly one based on `loading`/`error`/`recipes`
+ * from `useRecipes` (see the `{loading && ...}` / `{error && ...}` /
+ * `{!loading && !error && ...}` block in `App.jsx`'s `return`).
+ *
+ * `onRetry` is OPTIONAL — `{onRetry && <button>...}` only renders the button
+ * when a retry function was actually provided, so this same component could
+ * be reused for an error that has no sensible "try again" (e.g. "recipe not
+ * found"). `App` wires it to `refreshRecipes` from the hook, letting the user
+ * re-run the failed fetch without reloading the whole page.
+ */
 const ErrorMessage = ({ message, onRetry }) => {
   return (
     <div className="flex flex-col items-center justify-center py-12">

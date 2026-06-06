@@ -6,10 +6,35 @@ import RecipeList from "./components/RecipeList";
 import LoadingSpinner from "./components/LoadingSpinner";
 import ErrorMessage from "./components/ErrorMessage";
 
+/**
+ * ============================================================================
+ *  APP — the root component, wired together by COMPOSITION
+ * ============================================================================
+ * Notice what `App` does and doesn't do:
+ *   • it does NOT know how to fetch recipes (that's `useRecipes`)
+ *   • it does NOT know how to render a recipe card (that's `RecipeCard`,
+ *     rendered by `RecipeList`)
+ *   • it does NOT know how form fields validate (that's `RecipeForm`)
+ *
+ * Instead, `App` is the "conductor": it holds the small slice of state that
+ * genuinely belongs at this level (which UI is currently visible — the form?
+ * which recipe, if any, is being edited?), and hands everything else off to
+ * focused child components via PROPS. This pattern — small, single-purpose
+ * components composed together by a parent that coordinates them — is the
+ * core idea of building UIs in React. Read each child component
+ * (NavBar, RecipeForm, RecipeList, RecipeCard...) to see how the pieces
+ * fit; then come back here to see how they're assembled.
+ * ============================================================================
+ */
 function App() {
+  // UI-only state: doesn't come from the server, doesn't need to be shared
+  // outside this component tree, so plain `useState` here is the right tool
+  // (compare with `useRecipes`, where state needs sharable async behavior).
   const [showForm, setShowForm] = useState(false);
   const [editingRecipe, setEditingRecipe] = useState(null);
 
+  // Pull everything recipe-related out of the custom hook in one line.
+  // `App` doesn't need to know HOW any of this works — only that it exists.
   const {
     recipes,
     loading,
@@ -20,6 +45,11 @@ function App() {
     refreshRecipes,
   } = useRecipes();
 
+  // try/catch here serves a different purpose than in the hook: the hook
+  // already turned the failure into `error` state for the *list* view, but
+  // a failed save shouldn't silently close the form and lose the user's
+  // input. Catching it here means the form stays open so they can retry —
+  // we just log it for now (a good spot to later show an inline form error).
   const handleSaveRecipe = async (recipeData) => {
     try {
       if (editingRecipe) {
@@ -54,6 +84,15 @@ function App() {
     }
   };
 
+  /**
+   * CONDITIONAL RENDERING — `{condition && <Thing />}` is the most common
+   * JSX idiom for "render this only if that's true". JavaScript's `&&`
+   * short-circuits: if `condition` is falsy, it evaluates to `condition`
+   * itself (which React renders as nothing); if truthy, it evaluates to
+   * — and therefore renders — the JSX on the right. You'll see this pattern
+   * repeatedly below for the form, the loading spinner, the error message,
+   * and the empty-state vs. populated list.
+   */
   return (
     <div className="min-h-screen bg-gray-50">
       <NavBar

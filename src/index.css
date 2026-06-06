@@ -1,5 +1,32 @@
+/* ============================================================================
+ * TAILWIND CSS — a "utility-first" framework
+ * ============================================================================
+ * Traditional CSS: you invent a class name (`.recipe-card`), then write rules
+ * for it elsewhere (`background: white; border-radius: 0.75rem; ...`). Your
+ * markup and your styles live in two places, and naming things is hard.
+ *
+ * Tailwind flips this: it ships hundreds of tiny, single-purpose classes
+ * (`bg-white`, `rounded-xl`, `p-6`, `flex`, `hover:shadow-xl`...) that map
+ * almost 1:1 to individual CSS declarations. You compose them DIRECTLY in
+ * your JSX `className` (see RecipeCard.jsx for a guided tour of reading one
+ * of these class lists). No naming, no context-switching between files — the
+ * styling IS the markup. The trade-off: class lists can get long, which is
+ * exactly what `@apply` (below) exists to tame once a combo repeats often.
+ *
+ * Below, `@import "tailwindcss"` pulls in the framework; everything else in
+ * this file is OUR project's customization layered on top of it.
+ * ========================================================================== */
 @import "tailwindcss";
 
+/*
+ * @theme — Tailwind v4's CSS-first configuration. (In v3 you'd extend a
+ * `theme` object inside `tailwind.config.js`; v4 lets you declare the same
+ * design tokens as plain CSS custom properties right here.) Each variable
+ * below — e.g. `--color-primary-500` — instantly becomes a full set of
+ * utilities: `bg-primary-500`, `text-primary-500`, `border-primary-500`,
+ * `hover:bg-primary-600`, etc. This is how the app gets its teal brand color
+ * without ever writing `#14b8a6` inside a component.
+ */
 @theme {
   --color-primary-50: #f0fdfa;
   --color-primary-500: #14b8a6;
@@ -7,7 +34,19 @@
   --color-primary-700: #0f766e;
 }
 
-/* Base styles */
+/*
+ * @layer base — styles for bare HTML ELEMENTS (not classes), e.g. every
+ * <html> or <body> on the page. Tailwind groups these separately so its own
+ * utility classes can still override them later in the cascade regardless of
+ * the order rules happen to appear in your source files.
+ *
+ * `@apply` lets you write a normal CSS rule using Tailwind's utility names as
+ * shorthand — `@apply bg-gray-50;` expands to `background-color: ...;` at
+ * build time. It's the bridge between "utility classes in markup" (the
+ * default Tailwind style) and "named classes in CSS" (the traditional style)
+ * — reach for it when several elements need the exact same combination and
+ * spelling it out in every `className` would get repetitive or error-prone.
+ */
 @layer base {
   html {
     font-family: system-ui, sans-serif;
@@ -18,7 +57,18 @@
   }
 }
 
-/* Component styles */
+/*
+ * @layer components — reusable, NAMED classes built from utilities via
+ * `@apply`. This is the classic escape hatch from utility-class repetition:
+ * instead of retyping `bg-primary-500 text-white px-4 py-2 rounded-lg
+ * font-semibold hover:bg-primary-600 transition-colors` on every button,
+ * define `.btn-primary` once here and write `className="btn-primary"`
+ * everywhere. Notice, though, that the components in this app (RecipeCard,
+ * RecipeForm, NavBar...) mostly DON'T use these — they spell out utilities
+ * directly in their JSX instead. Both are valid Tailwind styles; comparing
+ * `.card` here with the `className` on RecipeCard's outermost `<div>` is a
+ * good way to see the same visual result achieved both ways.
+ */
 @layer components {
   .btn-primary {
     @apply bg-primary-500 text-white px-4 py-2 rounded-lg font-semibold hover:bg-primary-600 transition-colors;
